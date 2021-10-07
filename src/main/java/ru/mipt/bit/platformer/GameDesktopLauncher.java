@@ -7,20 +7,11 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.maps.MapRenderer;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.GridPoint2;
-import com.badlogic.gdx.math.Interpolation;
-import com.badlogic.gdx.math.Rectangle;
-import ru.mipt.bit.platformer.util.TileMovement;
+import ru.mipt.bit.platformer.objects.*;
 
-import static com.badlogic.gdx.Input.Keys.*;
-import static com.badlogic.gdx.graphics.GL20.GL_COLOR_BUFFER_BIT;
 import static com.badlogic.gdx.math.MathUtils.isEqual;
-import static ru.mipt.bit.platformer.util.GdxGameUtils.*;
 
 public class GameDesktopLauncher implements ApplicationListener {
 
@@ -28,10 +19,7 @@ public class GameDesktopLauncher implements ApplicationListener {
 
     private Batch batch;
 
-    private TiledMap level;
-    private MapRenderer levelRenderer;
-    private TileMovement tileMovement;
-
+    private LevelLayer levelLayer;
     private Player player;
     private Tree tree;
 
@@ -39,41 +27,27 @@ public class GameDesktopLauncher implements ApplicationListener {
     public void create() {
         batch = new SpriteBatch();
 
-        // load level tiles
-        level = new TmxMapLoader().load("level.tmx");
-        levelRenderer = createSingleLayerMapRenderer(level, batch);
-        TiledMapTileLayer groundLayer = getSingleLayer(level);
-        tileMovement = new TileMovement(groundLayer, Interpolation.smooth);
+        levelLayer = new LevelLayer(new TmxMapLoader().load("level.tmx"), batch);
 
         player = new Player(new Texture("images/tank_blue.png"), new GridPoint2(1, 1));
 
         tree = new Tree(new Texture("images/greenTree.png"), new GridPoint2(1, 3));
 
-        moveRectangleAtTileCenter(groundLayer, tree.getRectangle(), tree.getCoordinates());
+        levelLayer.placeObstacles(tree);
     }
 
     @Override
     public void render() {
         // clear the screen
-
         Drawer.clearScreen();
 
         player.move(Gdx.input, tree.getCoordinates(), MOVEMENT_SPEED);
-
         // calculate interpolated player screen coordinates
-
-        tileMovement.moveRectangleBetweenTileCenters(player.getTexture().getRectangle(), player.getCoordinates(), player.getDestinationCoordinates(), player.getMovementProgress());
-
+        levelLayer.updatePlayerPlacement(player);
         // render each tile of the level
-        levelRenderer.render();
+        levelLayer.render();
 
-        // start recording all drawing commands
-        batch.begin();
-
-        Drawer.drawTextures(batch, player, tree);
-
-        // submit all drawing requests
-        batch.end();
+        Drawer.draw(batch, player, tree);
     }
 
     @Override
@@ -96,7 +70,7 @@ public class GameDesktopLauncher implements ApplicationListener {
         // dispose of all the native resources (classes which implement com.badlogic.gdx.utils.Disposable)
         tree.dispose();
         player.dispose();
-        level.dispose();
+        levelLayer.dispose();
         batch.dispose();
     }
 
