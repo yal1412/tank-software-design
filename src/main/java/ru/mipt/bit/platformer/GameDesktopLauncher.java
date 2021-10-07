@@ -32,14 +32,8 @@ public class GameDesktopLauncher implements ApplicationListener {
     private MapRenderer levelRenderer;
     private TileMovement tileMovement;
 
-    private Texture blueTankTexture;
-
-    private Player player = new Player();
-
-    private Texture greenTreeTexture;
-    private TextureRegion treeObstacleGraphics;
-    private GridPoint2 treeObstacleCoordinates = new GridPoint2();
-    private Rectangle treeObstacleRectangle = new Rectangle();
+    private Player player;
+    private Tree tree;
 
     @Override
     public void create() {
@@ -51,51 +45,24 @@ public class GameDesktopLauncher implements ApplicationListener {
         TiledMapTileLayer groundLayer = getSingleLayer(level);
         tileMovement = new TileMovement(groundLayer, Interpolation.smooth);
 
-        // Texture decodes an image file and loads it into GPU memory, it represents a native resource
-        blueTankTexture = new Texture("images/tank_blue.png");
-        // TextureRegion represents Texture portion, there may be many TextureRegion instances of the same Texture
-        player.graphics = new TextureRegion(blueTankTexture);
-        player.rectangle = createBoundingRectangle(player.graphics);
-        // set player initial position
-        player.destinationCoordinates = new GridPoint2(1, 1);
-        player.coordinates = new GridPoint2(player.destinationCoordinates);
-        player.rotation = 0f;
-        player.movementRotation = player.rotation;
+        player = new Player(new Texture("images/tank_blue.png"), new GridPoint2(1, 1));
 
-        greenTreeTexture = new Texture("images/greenTree.png");
-        treeObstacleGraphics = new TextureRegion(greenTreeTexture);
-        treeObstacleCoordinates = new GridPoint2(1, 3);
-        treeObstacleRectangle = createBoundingRectangle(treeObstacleGraphics);
-        moveRectangleAtTileCenter(groundLayer, treeObstacleRectangle, treeObstacleCoordinates);
+        tree = new Tree(new Texture("images/greenTree.png"), new GridPoint2(1, 3));
+
+        moveRectangleAtTileCenter(groundLayer, tree.getRectangle(), tree.getCoordinates());
     }
 
     @Override
     public void render() {
         // clear the screen
-        Gdx.gl.glClearColor(0f, 0f, 0.2f, 1f);
-        Gdx.gl.glClear(GL_COLOR_BUFFER_BIT);
 
-        // get time passed since the last render
-        float deltaTime = Gdx.graphics.getDeltaTime();
+        Drawer.clearScreen();
 
-        // if key of movement was pressed and player finished his previous movement
-        if (player.isMovementKeyPressed(Gdx.input) && player.hasFinishedMovement()){
-            player.makeRotation();
-            // if there is no tree ahead
-            if (player.notObstacleAhead(treeObstacleCoordinates)){
-                player.makeMovement();
-                player.finishMovement();
-            }
-        }
+        player.move(Gdx.input, tree.getCoordinates(), MOVEMENT_SPEED);
 
         // calculate interpolated player screen coordinates
-        tileMovement.moveRectangleBetweenTileCenters(player.rectangle, player.coordinates, player.destinationCoordinates, player.movementProgress);
 
-        player.movementProgress = continueProgress(player.movementProgress, deltaTime, MOVEMENT_SPEED);
-        if (player.hasFinishedMovement()) {
-            // record that the player has reached his/her destination
-            player.coordinates.set(player.destinationCoordinates);
-        }
+        tileMovement.moveRectangleBetweenTileCenters(player.getTexture().getRectangle(), player.getCoordinates(), player.getDestinationCoordinates(), player.getMovementProgress());
 
         // render each tile of the level
         levelRenderer.render();
@@ -103,11 +70,7 @@ public class GameDesktopLauncher implements ApplicationListener {
         // start recording all drawing commands
         batch.begin();
 
-        // render player
-        drawTextureRegionUnscaled(batch, player.graphics, player.rectangle, player.rotation);
-
-        // render tree obstacle
-        drawTextureRegionUnscaled(batch, treeObstacleGraphics, treeObstacleRectangle, 0f);
+        Drawer.drawTextures(batch, player, tree);
 
         // submit all drawing requests
         batch.end();
@@ -131,8 +94,8 @@ public class GameDesktopLauncher implements ApplicationListener {
     @Override
     public void dispose() {
         // dispose of all the native resources (classes which implement com.badlogic.gdx.utils.Disposable)
-        greenTreeTexture.dispose();
-        blueTankTexture.dispose();
+        tree.dispose();
+        player.dispose();
         level.dispose();
         batch.dispose();
     }
