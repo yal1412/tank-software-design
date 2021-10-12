@@ -1,4 +1,4 @@
-package ru.mipt.bit.platformer;
+package ru.mipt.bit.platformer.objects;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -13,7 +13,7 @@ public class Tree {
     private final GridPoint2 coordinates;
     private final Rectangle rectangle;
 
-    Tree(Texture texture, GridPoint2 gridPoint2){
+    public Tree(Texture texture, GridPoint2 gridPoint2){
         this.texture = texture;
         graphics = new TextureRegion(texture);
         coordinates = gridPoint2;

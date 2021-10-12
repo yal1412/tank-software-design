@@ -2,6 +2,8 @@ package ru.mipt.bit.platformer;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.GridPoint2;
+import ru.mipt.bit.platformer.objects.Direction;
+import ru.mipt.bit.platformer.objects.Movement;
 
 import static com.badlogic.gdx.Input.Keys.*;
 import static com.badlogic.gdx.Input.Keys.D;

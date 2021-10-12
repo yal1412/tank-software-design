@@ -1,13 +1,11 @@
-package ru.mipt.bit.platformer;
+package ru.mipt.bit.platformer.objects;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.GridPoint2;
-import com.badlogic.gdx.math.Rectangle;
+import ru.mipt.bit.platformer.Control;
 
-import static com.badlogic.gdx.Input.Keys.*;
 import static com.badlogic.gdx.math.MathUtils.isEqual;
 import static ru.mipt.bit.platformer.util.GdxGameUtils.continueProgress;
 
@@ -27,7 +25,7 @@ public class Player {
 
     public Movement nextMove;
 
-    Player(Texture tankTexture, GridPoint2 destinationCoordinates){
+    public Player(Texture tankTexture, GridPoint2 destinationCoordinates){
         texture = new PlayerTexture(tankTexture);
         this.destinationCoordinates = destinationCoordinates;
         coordinates = new GridPoint2(destinationCoordinates);
