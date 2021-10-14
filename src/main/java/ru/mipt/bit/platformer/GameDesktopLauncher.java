@@ -19,8 +19,8 @@ public class GameDesktopLauncher implements ApplicationListener {
     private Batch batch;
 
     private LevelLayer levelLayer;
-    private Player player;
-    private Tree tree;
+    private Player tanks;
+    private Tree trees;
 
     @Override
     public void create() {
@@ -28,11 +28,11 @@ public class GameDesktopLauncher implements ApplicationListener {
 
         levelLayer = new LevelLayer(new TmxMapLoader().load("level.tmx"), batch);
 
-        player = new Player(new Texture("images/tank_blue.png"), new GridPoint2(1, 1));
+        tanks = new Player(new Texture("images/tank_blue.png"), new GridPoint2(1, 1));
 
-        tree = new Tree(new Texture("images/greenTree.png"), new GridPoint2(1, 3));
+        trees = new Tree(new Texture("images/greenTree.png"), new GridPoint2(1, 3));
 
-        levelLayer.placeObstacles(tree);
+        levelLayer.placeObstacles(trees);
     }
 
     @Override
@@ -40,13 +40,13 @@ public class GameDesktopLauncher implements ApplicationListener {
         // clear the screen
         Drawer.clearScreen();
 
-        player.move(Gdx.input, tree.getCoordinates(), MOVEMENT_SPEED);
+        tanks.move(Gdx.input, trees.getCoordinates(), MOVEMENT_SPEED);
         // calculate interpolated player screen coordinates
-        levelLayer.updatePlayerPlacement(player);
+        levelLayer.updatePlayerPlacement(tanks);
         // render each tile of the level
         levelLayer.render();
 
-        Drawer.draw(batch, player, tree);
+        Drawer.draw(batch, tanks, trees);
     }
 
     @Override
@@ -67,8 +67,8 @@ public class GameDesktopLauncher implements ApplicationListener {
     @Override
     public void dispose() {
         // dispose of all the native resources (classes which implement com.badlogic.gdx.utils.Disposable)
-        tree.dispose();
-        player.dispose();
+        trees.dispose();
+        tanks.dispose();
         levelLayer.dispose();
         batch.dispose();
     }
