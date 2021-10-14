@@ -9,6 +9,8 @@ import ru.mipt.bit.platformer.objects.Player;
 import ru.mipt.bit.platformer.objects.Tree;
 import ru.mipt.bit.platformer.util.TileMovement;
 
+import java.util.List;
+
 import static ru.mipt.bit.platformer.util.GdxGameUtils.*;
 
 public class LevelLayer {
@@ -31,8 +33,11 @@ public class LevelLayer {
                                                      player.getMovementProgress());
     }
 
-    public void placeObstacles(Tree tree) {
-        moveRectangleAtTileCenter(groundLayer, tree.getRectangle(), tree.getCoordinates());
+    public void placeObstacles(List<Tree> trees) {
+        for (Tree tree : trees) {
+            moveRectangleAtTileCenter(groundLayer, tree.getRectangle(), tree.getCoordinates());
+        }
+
     }
 
     public void render(){

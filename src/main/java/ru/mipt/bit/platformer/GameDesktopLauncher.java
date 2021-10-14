@@ -12,6 +12,9 @@ import com.badlogic.gdx.math.GridPoint2;
 import ru.mipt.bit.platformer.objects.Player;
 import ru.mipt.bit.platformer.objects.Tree;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class GameDesktopLauncher implements ApplicationListener {
 
     private static final float MOVEMENT_SPEED = 0.4f;
@@ -19,8 +22,8 @@ public class GameDesktopLauncher implements ApplicationListener {
     private Batch batch;
 
     private LevelLayer levelLayer;
-    private Player tanks;
-    private Tree trees;
+    private Player tank;
+    private List<Tree> trees;
 
     @Override
     public void create() {
@@ -28,9 +31,16 @@ public class GameDesktopLauncher implements ApplicationListener {
 
         levelLayer = new LevelLayer(new TmxMapLoader().load("level.tmx"), batch);
 
-        tanks = new Player(new Texture("images/tank_blue.png"), new GridPoint2(1, 1));
+        LevelGenerator levelGenerator = new LevelGenerator();
+        levelGenerator.generateLevelFromFile("src/main/resources/startingSettings/level.txt");
 
-        trees = new Tree(new Texture("images/greenTree.png"), new GridPoint2(1, 3));
+        tank = new Player(new Texture("images/tank_blue.png"), levelGenerator.getTankCoordinates().get(0));
+
+        //trees = new Tree(new Texture("images/greenTree.png"), new GridPoint2(1, 3));
+        trees = new ArrayList<>();
+        for (int i = 0; i < levelGenerator.getTreeCoordinates().size(); i++){
+            trees.add(new Tree(new Texture("images/greenTree.png"), levelGenerator.getTreeCoordinates().get(i)));
+        }
 
         levelLayer.placeObstacles(trees);
     }
@@ -40,13 +50,13 @@ public class GameDesktopLauncher implements ApplicationListener {
         // clear the screen
         Drawer.clearScreen();
 
-        tanks.move(Gdx.input, trees.getCoordinates(), MOVEMENT_SPEED);
+        tank.move(Gdx.input, trees, MOVEMENT_SPEED);
         // calculate interpolated player screen coordinates
-        levelLayer.updatePlayerPlacement(tanks);
+        levelLayer.updatePlayerPlacement(tank);
         // render each tile of the level
         levelLayer.render();
 
-        Drawer.draw(batch, tanks, trees);
+        Drawer.draw(batch, tank, trees);
     }
 
     @Override
@@ -67,8 +77,10 @@ public class GameDesktopLauncher implements ApplicationListener {
     @Override
     public void dispose() {
         // dispose of all the native resources (classes which implement com.badlogic.gdx.utils.Disposable)
-        trees.dispose();
-        tanks.dispose();
+        for (Tree tree : trees) {
+            tree.dispose();
+        }
+        tank.dispose();
         levelLayer.dispose();
         batch.dispose();
     }

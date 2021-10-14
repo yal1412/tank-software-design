@@ -6,6 +6,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.GridPoint2;
 import ru.mipt.bit.platformer.Control;
 
+import java.util.List;
+
 import static com.badlogic.gdx.math.MathUtils.isEqual;
 import static ru.mipt.bit.platformer.util.GdxGameUtils.continueProgress;
 
@@ -21,7 +23,7 @@ public class Player {
 
     private Movement nextMove;
 
-    public Player(Texture tankTexture, GridPoint2 destinationCoordinates){
+    public Player(Texture tankTexture, GridPoint2 destinationCoordinates) {
         texture = new PlayerTexture(tankTexture);
         this.destinationCoordinates = destinationCoordinates;
         coordinates = new GridPoint2(destinationCoordinates);
@@ -55,17 +57,22 @@ public class Player {
         movementProgress = 0f;
     }
 
-    public boolean notObstacleAhead(GridPoint2 obstacleCoordinates) {
+    public boolean notObstacleAhead(List<Tree> trees) {
         GridPoint2 possibleCoordinates = tryMovement();
-        return !obstacleCoordinates.equals(possibleCoordinates);
+        for (Tree tree : trees) {
+            if (tree.getCoordinates().equals(possibleCoordinates)){
+                return false;
+            }
+        }
+        return true;
     }
 
-    public void move(Input input, GridPoint2 treeObstacleCoordinates, float movementSpeed) {
+    public void move(Input input, List<Tree> trees, float movementSpeed) {
         nextMove = Control.determineDirectionByKey(Gdx.input);
-        if (!nextMove.isNull() && hasFinishedMovement()){
+        if (!nextMove.isNull() && hasFinishedMovement()) {
             makeRotation();
             // if there is no tree ahead
-            if (notObstacleAhead(treeObstacleCoordinates)){
+            if (notObstacleAhead(trees)){
                 makeMovement();
                 finishMovement();
             }
@@ -103,7 +110,7 @@ public class Player {
         return texture;
     }
 
-    public void dispose(){
+    public void dispose() {
         texture.getBlueTank().dispose();
     }
 }
