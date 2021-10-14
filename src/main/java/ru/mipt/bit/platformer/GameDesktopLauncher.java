@@ -50,7 +50,7 @@ public class GameDesktopLauncher implements ApplicationListener {
         // clear the screen
         Drawer.clearScreen();
 
-        tank.move(Gdx.input, trees, MOVEMENT_SPEED);
+        tank.move(trees, MOVEMENT_SPEED);
         // calculate interpolated player screen coordinates
         levelLayer.updatePlayerPlacement(tank);
         // render each tile of the level

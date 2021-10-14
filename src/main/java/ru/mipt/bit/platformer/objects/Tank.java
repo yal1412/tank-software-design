@@ -67,7 +67,7 @@ public class Tank {
         return true;
     }
 
-    public void move(Input input, List<Tree> trees, float movementSpeed) {
+    public void move(List<Tree> trees, float movementSpeed) {
         nextMove = Control.determineDirectionByKey(Gdx.input);
         if (!nextMove.isNull() && hasFinishedMovement()) {
             makeRotation();
@@ -110,8 +110,16 @@ public class Tank {
         return texture;
     }
 
+    public Movement getNextMove() {
+        return nextMove;
+    }
+
     public void dispose() {
         texture.getBlueTank().dispose();
+    }
+
+    public void setNextMove(Movement nextMove) {
+        this.nextMove = nextMove;
     }
 }
 
