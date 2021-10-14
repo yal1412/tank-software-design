@@ -5,7 +5,7 @@ import com.badlogic.gdx.maps.MapRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Interpolation;
-import ru.mipt.bit.platformer.objects.Player;
+import ru.mipt.bit.platformer.objects.Tank;
 import ru.mipt.bit.platformer.objects.Tree;
 import ru.mipt.bit.platformer.util.TileMovement;
 
@@ -26,11 +26,11 @@ public class LevelLayer {
         tileMovement = new TileMovement(groundLayer, Interpolation.smooth);
     }
 
-    public void updatePlayerPlacement(Player player) {
-        tileMovement.moveRectangleBetweenTileCenters(player.getTexture().getRectangle(),
-                                                     player.getCoordinates(),
-                                                     player.getDestinationCoordinates(),
-                                                     player.getMovementProgress());
+    public void updatePlayerPlacement(Tank tank) {
+        tileMovement.moveRectangleBetweenTileCenters(tank.getTexture().getRectangle(),
+                                                     tank.getCoordinates(),
+                                                     tank.getDestinationCoordinates(),
+                                                     tank.getMovementProgress());
     }
 
     public void placeObstacles(List<Tree> trees) {

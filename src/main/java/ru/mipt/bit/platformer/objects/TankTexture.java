@@ -6,12 +6,12 @@ import com.badlogic.gdx.math.Rectangle;
 
 import static ru.mipt.bit.platformer.util.GdxGameUtils.createBoundingRectangle;
 
-public class PlayerTexture {
-    private Texture blueTank;
-    private TextureRegion graphics;
-    private Rectangle rectangle;
+public class TankTexture {
+    private final Texture blueTank;
+    private final TextureRegion graphics;
+    private final Rectangle rectangle;
 
-    PlayerTexture(Texture tankTexture){
+    TankTexture(Texture tankTexture){
         blueTank = tankTexture;
         this.graphics = new TextureRegion(blueTank);
         this.rectangle = createBoundingRectangle(this.graphics);

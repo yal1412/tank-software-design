@@ -11,20 +11,20 @@ import java.util.List;
 import static com.badlogic.gdx.math.MathUtils.isEqual;
 import static ru.mipt.bit.platformer.util.GdxGameUtils.continueProgress;
 
-public class Player {
+public class Tank {
 
-    private PlayerTexture texture;
+    private final TankTexture texture;
     // player current position coordinates on level 10x8 grid (e.g. x=0, y=1)
-    private GridPoint2 coordinates;
+    private final GridPoint2 coordinates;
     // which tile the player want to go next
-    private GridPoint2 destinationCoordinates;
+    private final GridPoint2 destinationCoordinates;
     private float movementProgress;
     private float rotation;
 
     private Movement nextMove;
 
-    public Player(Texture tankTexture, GridPoint2 destinationCoordinates) {
-        texture = new PlayerTexture(tankTexture);
+    public Tank(Texture tankTexture, GridPoint2 destinationCoordinates) {
+        texture = new TankTexture(tankTexture);
         this.destinationCoordinates = destinationCoordinates;
         coordinates = new GridPoint2(destinationCoordinates);
         rotation = 0f;
@@ -106,7 +106,7 @@ public class Player {
         return coordinates;
     }
 
-    public PlayerTexture getTexture() {
+    public TankTexture getTexture() {
         return texture;
     }
 

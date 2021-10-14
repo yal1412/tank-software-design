@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import ru.mipt.bit.platformer.objects.Player;
+import ru.mipt.bit.platformer.objects.Tank;
 import ru.mipt.bit.platformer.objects.Tree;
 
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ public class GameDesktopLauncher implements ApplicationListener {
     private Batch batch;
 
     private LevelLayer levelLayer;
-    private Player tank;
+    private Tank tank;
     private List<Tree> trees;
 
     @Override
@@ -34,7 +34,7 @@ public class GameDesktopLauncher implements ApplicationListener {
  //       levelGenerator.generateLevelFromFile("src/main/resources/startingSettings/level.txt");
         levelGenerator.generateRandomCoordinates(5);
 
-        tank = new Player(new Texture("images/tank_blue.png"), levelGenerator.getTankCoordinates().get(0));
+        tank = new Tank(new Texture("images/tank_blue.png"), levelGenerator.getTankCoordinates().get(0));
 
         //trees = new Tree(new Texture("images/greenTree.png"), new GridPoint2(1, 3));
         trees = new ArrayList<>();
