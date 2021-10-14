@@ -9,9 +9,8 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.GridPoint2;
-import ru.mipt.bit.platformer.objects.*;
-
-import static com.badlogic.gdx.math.MathUtils.isEqual;
+import ru.mipt.bit.platformer.objects.Player;
+import ru.mipt.bit.platformer.objects.Tree;
 
 public class GameDesktopLauncher implements ApplicationListener {
 

@@ -10,8 +10,7 @@ import static com.badlogic.gdx.math.MathUtils.isEqual;
 import static ru.mipt.bit.platformer.util.GdxGameUtils.continueProgress;
 
 public class Player {
-//    public TextureRegion graphics;
-//    public Rectangle rectangle;
+
     private PlayerTexture texture;
     // player current position coordinates on level 10x8 grid (e.g. x=0, y=1)
     private GridPoint2 coordinates;
@@ -20,10 +19,7 @@ public class Player {
     private float movementProgress;
     private float rotation;
 
-//    public GridPoint2 directionVector = new GridPoint2(0, 0);
-//    public float movementRotation;
-
-    public Movement nextMove;
+    private Movement nextMove;
 
     public Player(Texture tankTexture, GridPoint2 destinationCoordinates){
         texture = new PlayerTexture(tankTexture);
