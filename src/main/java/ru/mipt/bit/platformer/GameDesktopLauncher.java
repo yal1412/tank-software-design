@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.badlogic.gdx.math.GridPoint2;
 import ru.mipt.bit.platformer.objects.Player;
 import ru.mipt.bit.platformer.objects.Tree;
 
@@ -32,7 +31,8 @@ public class GameDesktopLauncher implements ApplicationListener {
         levelLayer = new LevelLayer(new TmxMapLoader().load("level.tmx"), batch);
 
         LevelGenerator levelGenerator = new LevelGenerator();
-        levelGenerator.generateLevelFromFile("src/main/resources/startingSettings/level.txt");
+ //       levelGenerator.generateLevelFromFile("src/main/resources/startingSettings/level.txt");
+        levelGenerator.generateRandomCoordinates(5);
 
         tank = new Player(new Texture("images/tank_blue.png"), levelGenerator.getTankCoordinates().get(0));
 

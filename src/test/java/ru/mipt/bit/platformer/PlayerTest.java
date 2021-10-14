@@ -1,8 +1,9 @@
-package ru.mipt.bit.platformer.objects;
+package ru.mipt.bit.platformer;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.GridPoint2;
 import ru.mipt.bit.platformer.Control;
+import ru.mipt.bit.platformer.objects.Player;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -16,14 +17,14 @@ class PlayerTest {
     void tryMovement() {
     }
 
-//    @org.junit.jupiter.api.Test
-//    void notObstacleAhead() {
-//        Player player = new Player(new Texture("images/tank_blue.png"), new GridPoint2(1, 1));
-////        player.nextMove = new Movement(Direction.UP.vector, Direction.UP.rotation);
-//
+    @org.junit.jupiter.api.Test
+    void notObstacleAhead() {
+        Player player = new Player(new Texture("images/tank_blue.png"), new GridPoint2(1, 1));
+//        player.nextMove = new Movement(Direction.UP.vector, Direction.UP.rotation);
+
 //        assertFalse(player.notObstacleAhead(new GridPoint2(1, 2)));
 //        assertTrue(player.notObstacleAhead(new GridPoint2(1, 3)));
-//
-////        player.nextMove = new Movement(Direction.UP.vector, Direction.UP.rotation);
-//    }
+
+//        player.nextMove = new Movement(Direction.UP.vector, Direction.UP.rotation);
+    }
 }

@@ -8,8 +8,8 @@ import java.util.List;
 
 public class LevelGenerator {
 
-    private List<GridPoint2> tankCoordinates;
-    private List<GridPoint2> treeCoordinates;
+    private final List<GridPoint2> tankCoordinates;
+    private final List<GridPoint2> treeCoordinates;
 
     public LevelGenerator(){
         tankCoordinates = new ArrayList<>();
@@ -24,7 +24,6 @@ public class LevelGenerator {
 
             List<String> lines = new ArrayList<>();
             String oneLine = reader.readLine();
-            char[] strToChar;
 
             while (oneLine != null) {
                 lines.add(0, oneLine);
@@ -37,6 +36,27 @@ public class LevelGenerator {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void generateRandomCoordinates(int numberOfObstacles){
+        tankCoordinates.add(generateCoordinateOnField());
+
+        if (numberOfObstacles > 79){
+            numberOfObstacles = 79;
+        }
+
+        GridPoint2 tmpTreeCoordinate;
+        for (int i = 0; i < numberOfObstacles; i++){
+            tmpTreeCoordinate = generateCoordinateOnField();
+            while (tankCoordinates.contains(tmpTreeCoordinate) || treeCoordinates.contains(tmpTreeCoordinate)){
+                tmpTreeCoordinate = generateCoordinateOnField();
+            }
+            treeCoordinates.add(tmpTreeCoordinate);
+        }
+    }
+
+    private GridPoint2 generateCoordinateOnField(){
+        return new GridPoint2((int) (Math.random() * 10), (int) (Math.random() * 8));
     }
 
     public List<GridPoint2> getTankCoordinates() {
