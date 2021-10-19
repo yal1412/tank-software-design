@@ -21,7 +21,7 @@ public class GameDesktopLauncher implements ApplicationListener {
     private Batch batch;
 
     private LevelLayer levelLayer;
-    private Tank tank;
+    private List<Tank> tanks;
     private List<Tree> trees;
 
     @Override
@@ -31,12 +31,16 @@ public class GameDesktopLauncher implements ApplicationListener {
         levelLayer = new LevelLayer(new TmxMapLoader().load("level.tmx"), batch);
 
         LevelGenerator levelGenerator = new LevelGenerator();
- //       levelGenerator.generateLevelFromFile("src/main/resources/startingSettings/level.txt");
-        levelGenerator.generateRandomCoordinates(5);
+        levelGenerator.generateLevelFromFile("src/main/resources/startingSettings/level.txt");
+//        levelGenerator.generateRandomCoordinates(5);
 
-        tank = new Tank(new Texture("images/tank_blue.png"), levelGenerator.getTankCoordinates().get(0));
+//        tank = new Tank(new Texture("images/tank_blue.png"), levelGenerator.getTankCoordinates().get(0));
 
         //trees = new Tree(new Texture("images/greenTree.png"), new GridPoint2(1, 3));
+        tanks = new ArrayList<>();
+        for (int i = 0; i < levelGenerator.getTankCoordinates().size(); i++){
+            tanks.add(new Tank(new Texture("images/tank_blue.png"), levelGenerator.getTankCoordinates().get(i)));
+        }
         trees = new ArrayList<>();
         for (int i = 0; i < levelGenerator.getTreeCoordinates().size(); i++){
             trees.add(new Tree(new Texture("images/greenTree.png"), levelGenerator.getTreeCoordinates().get(i)));
@@ -50,13 +54,29 @@ public class GameDesktopLauncher implements ApplicationListener {
         // clear the screen
         Drawer.clearScreen();
 
-        tank.move(trees, MOVEMENT_SPEED);
+//        for (Tank tank : tanks) {
+//            tank.updateNextMove();
+//        }
+        tanks.get(0).updateNextMovePlayer();
+        tanks.get(1).updateNextMoveUp();
+        tanks.get(2).updateNextMoveUp();
+
+        for (Tank tank : tanks) {
+            tank.move(trees, tanks, MOVEMENT_SPEED);
+        }
+        for (Tank tank : tanks) {
+            tank.updateCoordinates();
+        }
+
         // calculate interpolated player screen coordinates
-        levelLayer.updatePlayerPlacement(tank);
+        for (Tank tank : tanks) {
+            levelLayer.updatePlayerPlacement(tank);
+        }
+
         // render each tile of the level
         levelLayer.render();
 
-        Drawer.draw(batch, tank, trees);
+        Drawer.draw(batch, tanks, trees);
     }
 
     @Override
@@ -80,7 +100,10 @@ public class GameDesktopLauncher implements ApplicationListener {
         for (Tree tree : trees) {
             tree.dispose();
         }
-        tank.dispose();
+        for (Tank tank : tanks) {
+            tank.dispose();
+        }
+
         levelLayer.dispose();
         batch.dispose();
     }

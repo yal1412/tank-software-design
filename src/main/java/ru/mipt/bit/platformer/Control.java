@@ -24,4 +24,21 @@ public class Control {
         }
         return new Movement();
     }
+
+    public static Movement determineDirectionUp(Input inputKey){
+        if (isMovementKey(inputKey))
+            return new Movement(new GridPoint2(Direction.DOWN.vector), Direction.DOWN.rotation);
+        return new Movement();
+    }
+
+    private static boolean isMovementKey(Input inputKey) {
+        return inputKey.isKeyPressed(UP) ||
+                inputKey.isKeyPressed(LEFT) ||
+                inputKey.isKeyPressed(RIGHT) ||
+                inputKey.isKeyPressed(DOWN) ||
+                inputKey.isKeyPressed(W) ||
+                inputKey.isKeyPressed(A) ||
+                inputKey.isKeyPressed(S) ||
+                inputKey.isKeyPressed(D);
+    }
 }

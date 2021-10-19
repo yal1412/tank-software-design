@@ -1,7 +1,6 @@
 package ru.mipt.bit.platformer.objects;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.GridPoint2;
 import ru.mipt.bit.platformer.Control;
@@ -57,7 +56,7 @@ public class Tank {
         movementProgress = 0f;
     }
 
-    public boolean notObstacleAhead(List<Tree> trees) {
+    public boolean noObstacleAhead(List<Tree> trees) {
         GridPoint2 possibleCoordinates = tryMovement();
         for (Tree tree : trees) {
             if (tree.getCoordinates().equals(possibleCoordinates)){
@@ -67,12 +66,34 @@ public class Tank {
         return true;
     }
 
-    public void move(List<Tree> trees, float movementSpeed) {
-        nextMove = Control.determineDirectionByKey(Gdx.input);
+    private boolean noTanksAhead(List<Tank> tanks) {
+        GridPoint2 thisPossibleCoordinates = tryMovement();
+        GridPoint2 tankPossibleCoordinates;
+        for (Tank tank : tanks) {
+            tankPossibleCoordinates = tank.tryMovement();
+            if (this.equals(tank)) {
+                continue;
+            }
+            if (tank.getCoordinates().equals(thisPossibleCoordinates) ||
+                    tankPossibleCoordinates.equals(thisPossibleCoordinates)){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public void updateCoordinates(){
+        if (hasFinishedMovement()) {
+            // record that the player has reached his/her destination
+            coordinates.set(destinationCoordinates);
+        }
+    }
+
+    public void move(List<Tree> trees, List<Tank> tanks, float movementSpeed) {
         if (!nextMove.isNull() && hasFinishedMovement()) {
             makeRotation();
             // if there is no tree ahead
-            if (notObstacleAhead(trees)){
+            if (noObstacleAhead(trees) && noTanksAhead(tanks)){
                 makeMovement();
                 finishMovement();
             }
@@ -80,10 +101,6 @@ public class Tank {
 
         float deltaTime = Gdx.graphics.getDeltaTime();
         updateMovementProgress(deltaTime, movementSpeed);
-        if (hasFinishedMovement()) {
-            // record that the player has reached his/her destination
-            coordinates.set(destinationCoordinates);
-        }
     }
 
     public void updateMovementProgress(float deltaTime, float movementSpeed) {
@@ -120,6 +137,14 @@ public class Tank {
 
     public void setNextMove(Movement nextMove) {
         this.nextMove = nextMove;
+    }
+
+    public void updateNextMovePlayer() {
+        nextMove = Control.determineDirectionByKey(Gdx.input);
+    }
+
+    public void updateNextMoveUp() {
+        nextMove = Control.determineDirectionUp(Gdx.input);
     }
 }
 

@@ -16,11 +16,12 @@ public class Drawer {
         Gdx.gl.glClear(GL_COLOR_BUFFER_BIT);
     }
 
-    public static void draw(Batch batch, Tank tank, List<Tree> trees) {
+    public static void draw(Batch batch, List<Tank> tanks, List<Tree> trees) {
         batch.begin();
         // render player
-        drawTextureRegionUnscaled(batch, tank.getTexture().getGraphics(), tank.getTexture().getRectangle(), tank.getRotation());
-
+        for (Tank tank : tanks) {
+            drawTextureRegionUnscaled(batch, tank.getTexture().getGraphics(), tank.getTexture().getRectangle(), tank.getRotation());
+        }
         // render tree obstacle
         for (Tree tree : trees) {
             drawTextureRegionUnscaled(batch, tree.getGraphics(), tree.getRectangle(), 0f);
