@@ -139,12 +139,21 @@ public class Tank {
         this.nextMove = nextMove;
     }
 
-    public void updateNextMovePlayer() {
+    public void updateNextMove(boolean isPlayer){
+        if (isPlayer){
+            updateNextMovePlayer();
+        }
+        else {
+            updateNextMoveRandomly();
+        }
+    }
+
+    private void updateNextMovePlayer() {
         nextMove = Control.determineDirectionByKey(Gdx.input);
     }
 
-    public void updateNextMoveUp() {
-        nextMove = Control.determineDirectionUp(Gdx.input);
+    private void updateNextMoveRandomly() {
+        nextMove = Control.determineDirectionRandomly(Gdx.input);
     }
 }
 

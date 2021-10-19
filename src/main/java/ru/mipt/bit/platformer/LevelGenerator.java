@@ -38,11 +38,19 @@ public class LevelGenerator {
         }
     }
 
-    public void generateRandomCoordinates(int numberOfObstacles){
-        tankCoordinates.add(generateCoordinateOnField());
+    public void generateRandomCoordinates(int numberOfTanks, int numberOfObstacles){
 
-        if (numberOfObstacles > 79){
-            numberOfObstacles = 79;
+        if (numberOfObstacles + numberOfTanks > 80){
+            numberOfObstacles = 80 - numberOfTanks;
+        }
+
+        GridPoint2 tmpTankCoordinate;
+        for (int i = 0; i < numberOfTanks; i++){
+            tmpTankCoordinate = generateCoordinateOnField();
+            while (tankCoordinates.contains(tmpTankCoordinate)){
+                tmpTankCoordinate = generateCoordinateOnField();
+            }
+            tankCoordinates.add(tmpTankCoordinate);
         }
 
         GridPoint2 tmpTreeCoordinate;

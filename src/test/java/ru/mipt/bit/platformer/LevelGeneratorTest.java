@@ -12,7 +12,7 @@ class LevelGeneratorTest {
     @Test
     void generateRandomCoordinates_ShouldReturnEmptyTrees() {
         LevelGenerator levelGenerator = new LevelGenerator();
-        levelGenerator.generateRandomCoordinates(0);
+        levelGenerator.generateRandomCoordinates(0, 0);
 
         assertTrue(levelGenerator.getTreeCoordinates().isEmpty());
     }
@@ -21,7 +21,7 @@ class LevelGeneratorTest {
     @CsvSource({"0,0", "15,15", "79,79", "90,79"})
     void generateRandomCoordinates_ShouldReturnGivenNumberOfTrees(int n, int expected) {
         LevelGenerator levelGenerator = new LevelGenerator();
-        levelGenerator.generateRandomCoordinates(n);
+        levelGenerator.generateRandomCoordinates(0, n);
 
         assertEquals(levelGenerator.getTreeCoordinates().size(), expected);
     }
@@ -30,7 +30,7 @@ class LevelGeneratorTest {
     @ValueSource(ints = {0, 5, 80})
     void generateRandomCoordinates_ShouldReturnOneTank(int n) {
         LevelGenerator levelGenerator = new LevelGenerator();
-        levelGenerator.generateRandomCoordinates(n);
+        levelGenerator.generateRandomCoordinates(0, n);
 
         assertEquals(levelGenerator.getTankCoordinates().size(), 1);
     }

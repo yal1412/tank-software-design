@@ -34,9 +34,6 @@ public class GameDesktopLauncher implements ApplicationListener {
         levelGenerator.generateLevelFromFile("src/main/resources/startingSettings/level.txt");
 //        levelGenerator.generateRandomCoordinates(5);
 
-//        tank = new Tank(new Texture("images/tank_blue.png"), levelGenerator.getTankCoordinates().get(0));
-
-        //trees = new Tree(new Texture("images/greenTree.png"), new GridPoint2(1, 3));
         tanks = new ArrayList<>();
         for (int i = 0; i < levelGenerator.getTankCoordinates().size(); i++){
             tanks.add(new Tank(new Texture("images/tank_blue.png"), levelGenerator.getTankCoordinates().get(i)));
@@ -54,12 +51,10 @@ public class GameDesktopLauncher implements ApplicationListener {
         // clear the screen
         Drawer.clearScreen();
 
-//        for (Tank tank : tanks) {
-//            tank.updateNextMove();
-//        }
-        tanks.get(0).updateNextMovePlayer();
-        tanks.get(1).updateNextMoveUp();
-        tanks.get(2).updateNextMoveUp();
+        tanks.get(0).updateNextMove(true);
+        for (int i = 1; i < tanks.size(); i++) {
+          tanks.get(i).updateNextMove(false);
+        }
 
         for (Tank tank : tanks) {
             tank.move(trees, tanks, MOVEMENT_SPEED);
