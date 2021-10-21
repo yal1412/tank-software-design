@@ -71,14 +71,8 @@ public class Tank {
 
     private boolean noTanksAhead(List<Tank> tanks) {
         GridPoint2 thisPossibleCoordinates = tryMovement();
-//        System.out.println("----------------------------------------");
-//        System.out.println("thisCurrentCoordinates: " + this.getCoordinates().x + " " + this.getCoordinates().y);
-//        System.out.println("thisPossibleCoordinates: " + thisPossibleCoordinates.x + " " + thisPossibleCoordinates.y);
         GridPoint2 tankPossibleCoordinates;
         for (Tank tank : tanks) {
-
-//            System.out.println("tankCurrentCoordinates: " + tank.getCoordinates().x + " " + tank.getCoordinates().y);
-//            System.out.println("tankPossibleCoordinates: " + tankPossibleCoordinates.x + " " + tankPossibleCoordinates.y);
             if (this.equals(tank)) {
                 continue;
             }

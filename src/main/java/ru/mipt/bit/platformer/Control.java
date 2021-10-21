@@ -31,7 +31,7 @@ public class Control {
 
     public static Movement determineDirectionRandomly(Input inputKey){
         if (isMovementKey(inputKey)) {
-            int random = (int) (Math.random() * 2);
+            int random = (int) (Math.random() * 4);
             switch (random){
                 case 0:
                     return new Movement(new GridPoint2(Direction.UP.vector), Direction.UP.rotation);
