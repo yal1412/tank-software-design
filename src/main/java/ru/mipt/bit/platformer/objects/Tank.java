@@ -44,6 +44,9 @@ public class Tank {
     }
 
     public GridPoint2 tryMovement() {
+        if (nextMove.isNull())
+            return destinationCoordinates;
+
         GridPoint2 newCoordinates = new GridPoint2();
         newCoordinates.x = destinationCoordinates.x + nextMove.directionVector.x;
         newCoordinates.y = destinationCoordinates.y + nextMove.directionVector.y;
@@ -68,12 +71,18 @@ public class Tank {
 
     private boolean noTanksAhead(List<Tank> tanks) {
         GridPoint2 thisPossibleCoordinates = tryMovement();
+//        System.out.println("----------------------------------------");
+//        System.out.println("thisCurrentCoordinates: " + this.getCoordinates().x + " " + this.getCoordinates().y);
+//        System.out.println("thisPossibleCoordinates: " + thisPossibleCoordinates.x + " " + thisPossibleCoordinates.y);
         GridPoint2 tankPossibleCoordinates;
         for (Tank tank : tanks) {
-            tankPossibleCoordinates = tank.tryMovement();
+
+//            System.out.println("tankCurrentCoordinates: " + tank.getCoordinates().x + " " + tank.getCoordinates().y);
+//            System.out.println("tankPossibleCoordinates: " + tankPossibleCoordinates.x + " " + tankPossibleCoordinates.y);
             if (this.equals(tank)) {
                 continue;
             }
+            tankPossibleCoordinates = tank.tryMovement();
             if (tank.getCoordinates().equals(thisPossibleCoordinates) ||
                     tankPossibleCoordinates.equals(thisPossibleCoordinates)){
                 return false;
@@ -89,11 +98,11 @@ public class Tank {
         }
     }
 
-    public void move(List<Tree> trees, List<Tank> tanks, float movementSpeed) {
+    public void move(List<Tree> trees, List<Tank> tanks, float movementSpeed, int width, int hight) {
         if (!nextMove.isNull() && hasFinishedMovement()) {
             makeRotation();
             // if there is no tree ahead
-            if (noObstacleAhead(trees) && noTanksAhead(tanks)){
+            if (noWallAhead(width, hight) && noObstacleAhead(trees) && noTanksAhead(tanks)){
                 makeMovement();
                 finishMovement();
             }
@@ -101,6 +110,12 @@ public class Tank {
 
         float deltaTime = Gdx.graphics.getDeltaTime();
         updateMovementProgress(deltaTime, movementSpeed);
+    }
+
+    private boolean noWallAhead(int width, int hight) {
+        GridPoint2 possibleCoordinates = tryMovement();
+        return possibleCoordinates.x >= 0 && possibleCoordinates.x < width &&
+                possibleCoordinates.y >= 0 && possibleCoordinates.y < hight;
     }
 
     public void updateMovementProgress(float deltaTime, float movementSpeed) {
@@ -154,6 +169,10 @@ public class Tank {
 
     private void updateNextMoveRandomly() {
         nextMove = Control.determineDirectionRandomly(Gdx.input);
+    }
+
+    public void setMovementProgress(float movementProgress) {
+        this.movementProgress = movementProgress;
     }
 }
 

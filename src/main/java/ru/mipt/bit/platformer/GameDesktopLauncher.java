@@ -24,6 +24,9 @@ public class GameDesktopLauncher implements ApplicationListener {
     private List<Tank> tanks;
     private List<Tree> trees;
 
+    private int width;
+    private int hight;
+
     @Override
     public void create() {
         batch = new SpriteBatch();
@@ -33,6 +36,9 @@ public class GameDesktopLauncher implements ApplicationListener {
         LevelGenerator levelGenerator = new LevelGenerator();
         levelGenerator.generateLevelFromFile("src/main/resources/startingSettings/level.txt");
 //        levelGenerator.generateRandomCoordinates(5);
+
+        width = levelGenerator.getWidth();
+        hight = levelGenerator.getHight();
 
         tanks = new ArrayList<>();
         for (int i = 0; i < levelGenerator.getTankCoordinates().size(); i++){
@@ -57,7 +63,7 @@ public class GameDesktopLauncher implements ApplicationListener {
         }
 
         for (Tank tank : tanks) {
-            tank.move(trees, tanks, MOVEMENT_SPEED);
+            tank.move(trees, tanks, MOVEMENT_SPEED, width, hight);
         }
         for (Tank tank : tanks) {
             tank.updateCoordinates();

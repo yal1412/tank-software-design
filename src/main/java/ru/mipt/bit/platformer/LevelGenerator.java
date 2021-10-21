@@ -10,14 +10,40 @@ public class LevelGenerator {
 
     private final List<GridPoint2> tankCoordinates;
     private final List<GridPoint2> treeCoordinates;
+    private int width;
+    private int hight;
 
     public LevelGenerator(){
         tankCoordinates = new ArrayList<>();
         treeCoordinates = new ArrayList<>();
+        width = 0;
+        hight = 0;
+    }
+
+    private void getFieldSizeFromFile(String pathToFile){
+        try {
+            File file = new File(pathToFile);
+            FileReader fr = new FileReader(file);
+            BufferedReader reader = new BufferedReader(fr);
+
+            String line = reader.readLine();
+            String[] sizes;
+
+            if (line != null) {
+                sizes = line.split(" ");
+                width = Integer.parseInt(sizes[0]);
+                hight = Integer.parseInt(sizes[1]);
+                System.out.println(width + " " + hight);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void generateLevelFromFile(String pathToFile){
         try {
+            getFieldSizeFromFile("src/main/resources/startingSettings/fieldSize.txt");
             File file = new File(pathToFile);
             FileReader fr = new FileReader(file);
             BufferedReader reader = new BufferedReader(fr);
@@ -40,8 +66,10 @@ public class LevelGenerator {
 
     public void generateRandomCoordinates(int numberOfTanks, int numberOfObstacles){
 
-        if (numberOfObstacles + numberOfTanks > 80){
-            numberOfObstacles = 80 - numberOfTanks;
+        getFieldSizeFromFile("src/main/resources/startingSettings/fieldSize.txt");
+
+        if (numberOfObstacles + numberOfTanks > width * hight){
+            numberOfObstacles = width * hight - numberOfTanks;
         }
 
         GridPoint2 tmpTankCoordinate;
@@ -64,7 +92,7 @@ public class LevelGenerator {
     }
 
     private GridPoint2 generateCoordinateOnField(){
-        return new GridPoint2((int) (Math.random() * 10), (int) (Math.random() * 8));
+        return new GridPoint2((int) (Math.random() * width), (int) (Math.random() * hight));
     }
 
     public List<GridPoint2> getTankCoordinates() {
@@ -73,5 +101,13 @@ public class LevelGenerator {
 
     public List<GridPoint2> getTreeCoordinates() {
         return treeCoordinates;
+    }
+
+    public int getHight() {
+        return hight;
+    }
+
+    public int getWidth() {
+        return width;
     }
 }
