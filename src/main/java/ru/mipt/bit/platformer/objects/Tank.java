@@ -95,11 +95,8 @@ public class Tank {
     public void move(List<Tree> trees, List<Tank> tanks, float movementSpeed, int width, int hight) {
         if (!nextMove.isNull() && hasFinishedMovement()) {
             makeRotation();
-            // if there is no tree ahead
-            if (noWallAhead(width, hight) && noObstacleAhead(trees) && noTanksAhead(tanks)){
-                makeMovement();
-                finishMovement();
-            }
+            makeMovement();
+            finishMovement();
         }
 
         float deltaTime = Gdx.graphics.getDeltaTime();
@@ -167,6 +164,10 @@ public class Tank {
 
     public void setMovementProgress(float movementProgress) {
         this.movementProgress = movementProgress;
+    }
+
+    public Boolean checkAllCollisions(List<Tree> trees, List<Tank> tanks, int width, int hight) {
+        return noWallAhead(width, hight) && noObstacleAhead(trees) && noTanksAhead(tanks);
     }
 }
 

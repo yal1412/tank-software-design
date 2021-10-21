@@ -33,7 +33,6 @@ public class LevelGenerator {
                 sizes = line.split(" ");
                 width = Integer.parseInt(sizes[0]);
                 hight = Integer.parseInt(sizes[1]);
-                System.out.println(width + " " + hight);
             }
 
         } catch (IOException e) {

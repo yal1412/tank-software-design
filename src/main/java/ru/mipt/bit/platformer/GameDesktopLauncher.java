@@ -8,6 +8,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.math.GridPoint2;
+import ru.mipt.bit.platformer.objects.Movement;
 import ru.mipt.bit.platformer.objects.Tank;
 import ru.mipt.bit.platformer.objects.Tree;
 
@@ -62,8 +64,15 @@ public class GameDesktopLauncher implements ApplicationListener {
           tanks.get(i).updateNextMove(false);
         }
 
+        List<Boolean> checks = new ArrayList<>();
         for (Tank tank : tanks) {
-            tank.move(trees, tanks, MOVEMENT_SPEED, width, hight);
+            checks.add(tank.checkAllCollisions(trees, tanks, width, hight));
+        }
+        for (int i = 0; i < checks.size(); i++) {
+             if (!checks.get(i)){
+                 tanks.get(i).setNextMove(new Movement(new GridPoint2(0, 0), tanks.get(i).getRotation()));
+             }
+            tanks.get(i).move(trees, tanks, MOVEMENT_SPEED, width, hight);
         }
         for (Tank tank : tanks) {
             tank.updateCoordinates();
