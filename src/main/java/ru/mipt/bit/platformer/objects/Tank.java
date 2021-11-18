@@ -67,12 +67,18 @@ public class Tank {
         return true;
     }
 
-    public void move(List<Tree> trees, float movementSpeed) {
+    private boolean noWallAhead(int width, int height) {
+        GridPoint2 possibleCoordinates = tryMovement();
+        return possibleCoordinates.x >= 0 && possibleCoordinates.x < width &&
+                possibleCoordinates.y >= 0 && possibleCoordinates.y < height;
+    }
+
+    public void move(List<Tree> trees, float movementSpeed, int width, int height) {
         nextMove = Control.determineDirectionByKey(Gdx.input);
         if (!nextMove.isNull() && hasFinishedMovement()) {
             makeRotation();
             // if there is no tree ahead
-            if (notObstacleAhead(trees)){
+            if (noWallAhead(width, height) && notObstacleAhead(trees)){
                 makeMovement();
                 finishMovement();
             }

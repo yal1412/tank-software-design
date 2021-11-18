@@ -1,7 +1,6 @@
 package ru.mipt.bit.platformer;
 
 import com.badlogic.gdx.ApplicationListener;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.graphics.Texture;
@@ -24,6 +23,9 @@ public class GameDesktopLauncher implements ApplicationListener {
     private Tank tank;
     private List<Tree> trees;
 
+    private int height;
+    private int width;
+
     @Override
     public void create() {
         batch = new SpriteBatch();
@@ -31,8 +33,11 @@ public class GameDesktopLauncher implements ApplicationListener {
         levelLayer = new LevelLayer(new TmxMapLoader().load("level.tmx"), batch);
 
         LevelGenerator levelGenerator = new LevelGenerator();
- //       levelGenerator.generateLevelFromFile("src/main/resources/startingSettings/level.txt");
-        levelGenerator.generateRandomCoordinates(5);
+        levelGenerator.generateLevelFromFile("src/main/resources/startingSettings/level.txt");
+
+        width = levelGenerator.getWidth();
+        height = levelGenerator.getHeight();
+ //       levelGenerator.generateRandomCoordinates(5);
 
         tank = new Tank(new Texture("images/tank_blue.png"), levelGenerator.getTankCoordinates().get(0));
 
@@ -50,7 +55,7 @@ public class GameDesktopLauncher implements ApplicationListener {
         // clear the screen
         Drawer.clearScreen();
 
-        tank.move(trees, MOVEMENT_SPEED);
+        tank.move(trees, MOVEMENT_SPEED, width, height);
         // calculate interpolated player screen coordinates
         levelLayer.updatePlayerPlacement(tank);
         // render each tile of the level
