@@ -3,13 +3,7 @@ package ru.mipt.bit.platformer;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import ru.mipt.bit.platformer.Graphics.LevelRenderer;
-import ru.mipt.bit.platformer.Graphics.TankTexture;
-import ru.mipt.bit.platformer.Graphics.TreeTexture;
+import ru.mipt.bit.platformer.graphics.LevelRenderer;
 import ru.mipt.bit.platformer.objects.Tank;
 import ru.mipt.bit.platformer.objects.Tree;
 
@@ -23,8 +17,8 @@ public class GameDesktopLauncher implements ApplicationListener {
     private Tank tank;
     private List<Tree> trees;
 
-    private static int height;
-    private static int width;
+    private int height;
+    private int width;
 
     @Override
     public void create() {

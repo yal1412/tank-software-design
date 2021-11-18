@@ -2,10 +2,9 @@ package ru.mipt.bit.platformer;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import ru.mipt.bit.platformer.Graphics.TankTexture;
-import ru.mipt.bit.platformer.Graphics.TreeTexture;
+import ru.mipt.bit.platformer.graphics.TankTexture;
+import ru.mipt.bit.platformer.graphics.TreeTexture;
 import ru.mipt.bit.platformer.objects.Tank;
-import ru.mipt.bit.platformer.objects.Tree;
 
 import java.util.List;
 
