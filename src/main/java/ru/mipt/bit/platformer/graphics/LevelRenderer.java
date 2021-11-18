@@ -35,10 +35,14 @@ public class LevelRenderer {
         levelLayer.placeObstacles(trees, treeTextures);
     }
 
-    public void render(Tank tank){
-        levelLayer.updatePlayerPlacement(tank, tankTexture);
+    public void render(List<Tank> tanks){
+        for (Tank tank : tanks) {
+            levelLayer.updatePlayerPlacement(tank, tankTexture);
+        }
         levelLayer.render();
-        Drawer.draw(batch, tank, tankTexture, treeTextures);
+        for (Tank tank : tanks) {
+            Drawer.draw(batch, tank, tankTexture, treeTextures);
+        }
     }
 
     public void dispose(){

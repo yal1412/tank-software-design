@@ -16,13 +16,13 @@ public class GameDesktopLauncher implements ApplicationListener {
 
     private LevelRenderer levelRenderer;
 
-    private Tank tank;
+    private List<Tank> tanks;
     private List<Tree> trees;
 
     private int height;
     private int width;
 
-    private Controller controller;
+    private List<Controller> controllers;
 
     @Override
     public void create() {
@@ -34,7 +34,15 @@ public class GameDesktopLauncher implements ApplicationListener {
         height = levelGenerator.getHeight();
  //       levelGenerator.generateRandomCoordinates(5);
 
-        tank = new Tank(levelGenerator.getTankCoordinates().get(0));
+        tanks = new ArrayList<>();
+        controllers = new ArrayList<>();
+        for (int i = 0; i < levelGenerator.getTankCoordinates().size(); i++){
+            tanks.add(new Tank(levelGenerator.getTankCoordinates().get(i)));
+            controllers.add(new Controller(new MoveUpCommand(tanks.get(i)),
+                            new MoveDownCommand(tanks.get(i)),
+                            new MoveLeftCommand(tanks.get(i)),
+                            new MoveRightCommand(tanks.get(i))));
+        }
 
         trees = new ArrayList<>();
         for (int i = 0; i < levelGenerator.getTreeCoordinates().size(); i++){
@@ -42,11 +50,6 @@ public class GameDesktopLauncher implements ApplicationListener {
         }
 
         levelRenderer = new LevelRenderer(trees);
-
-        controller = new Controller(new MoveUpCommand(tank, trees, width, height),
-                                    new MoveDownCommand(tank, trees, width, height),
-                                    new MoveLeftCommand(tank, trees, width, height),
-                                    new MoveRightCommand(tank, trees, width, height));
     }
 
     @Override
@@ -56,26 +59,29 @@ public class GameDesktopLauncher implements ApplicationListener {
 
         moveTanks();
 
-        levelRenderer.render(tank);
+        levelRenderer.render(tanks);
     }
 
     private void moveTanks() {
  //       tank.move(trees, width, height);
 
-        int c = (int) (Math.random() * 4);
-        switch (c){
-            case 0:
-                controller.moveUp();
-                break;
-            case 1:
-                controller.moveDown();
-                break;
-            case 2:
-                controller.moveLeft();
-                break;
-            case 3:
-                controller.moveRight();
-                break;
+        for (int i = 0; i < tanks.size(); i++) {
+            int c = (int) (Math.random() * 4);
+            switch (c) {
+                case 0:
+                    controllers.get(i).moveUp();
+                    break;
+                case 1:
+                    controllers.get(i).moveDown();
+                    break;
+                case 2:
+                    controllers.get(i).moveLeft();
+                    break;
+                case 3:
+                    controllers.get(i).moveRight();
+                    break;
+            }
+            tanks.get(i).moveCommand(trees, width, height);
         }
     }
 

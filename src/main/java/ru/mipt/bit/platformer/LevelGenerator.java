@@ -63,22 +63,33 @@ public class LevelGenerator {
         }
     }
 
-    public void generateRandomCoordinates(int numberOfObstacles){
-        tankCoordinates.add(generateCoordinateOnField());
-
+    public void generateRandomCoordinates(int numberOfTanks, int numberOfObstacles){
         getFieldSizeFromFile("src/main/resources/startingSettings/fieldSize.txt");
 
-        if (numberOfObstacles + 1 > width * height){
-            numberOfObstacles = width * height - 1;
+        if (numberOfTanks > width * height - 2){
+            numberOfTanks = width * height - 2;
         }
 
-        GridPoint2 tmpTreeCoordinate;
-        for (int i = 0; i < numberOfObstacles; i++){
-            tmpTreeCoordinate = generateCoordinateOnField();
-            while (tankCoordinates.contains(tmpTreeCoordinate) || treeCoordinates.contains(tmpTreeCoordinate)){
-                tmpTreeCoordinate = generateCoordinateOnField();
+        if (numberOfObstacles + numberOfTanks > width * height){
+            numberOfObstacles = width * height - numberOfTanks;
+        }
+        tankCoordinates.add(generateCoordinateOnField());
+
+        GridPoint2 tmpCoordinate;
+        for (int i = 0; i < numberOfTanks; i++){
+            tmpCoordinate = generateCoordinateOnField();
+            while (tankCoordinates.contains(tmpCoordinate)){
+                tmpCoordinate = generateCoordinateOnField();
             }
-            treeCoordinates.add(tmpTreeCoordinate);
+            tankCoordinates.add(tmpCoordinate);
+        }
+
+        for (int i = 0; i < numberOfObstacles; i++){
+            tmpCoordinate = generateCoordinateOnField();
+            while (tankCoordinates.contains(tmpCoordinate) || treeCoordinates.contains(tmpCoordinate)){
+                tmpCoordinate = generateCoordinateOnField();
+            }
+            treeCoordinates.add(tmpCoordinate);
         }
     }
 

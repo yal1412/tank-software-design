@@ -90,8 +90,7 @@ public class Tank {
         }
     }
 
-    public void moveCommand(List<Tree> trees, int width, int height, Movement nextMove) {
-        this.nextMove = nextMove;
+    public void moveCommand(List<Tree> trees, int width, int height) {
         if (!nextMove.isNull() && hasFinishedMovement()) {
             makeRotation();
             // if there is no tree ahead
@@ -137,24 +136,28 @@ public class Tank {
         this.nextMove = nextMove;
     }
 
-    public void moveUp(List<Tree> trees, int width, int height){
-        moveCommand(trees, width, height,
-                    new Movement(new GridPoint2(Direction.UP.vector), Direction.UP.rotation));
+    public void moveUp(){
+        nextMove = new Movement(new GridPoint2(Direction.UP.vector), Direction.UP.rotation);
+//        moveCommand(trees, width, height,
+//                    new Movement(new GridPoint2(Direction.UP.vector), Direction.UP.rotation));
     }
 
-    public void moveDown(List<Tree> trees, int width, int height){
-        moveCommand(trees, width, height,
-                    new Movement(new GridPoint2(Direction.DOWN.vector), Direction.DOWN.rotation));
+    public void moveDown(){
+        nextMove = new Movement(new GridPoint2(Direction.DOWN.vector), Direction.DOWN.rotation);
+//        moveCommand(trees, width, height,
+//                    new Movement(new GridPoint2(Direction.DOWN.vector), Direction.DOWN.rotation));
     }
 
-    public void moveLeft(List<Tree> trees, int width, int height){
-        moveCommand(trees, width, height,
-                    new Movement(new GridPoint2(Direction.LEFT.vector), Direction.LEFT.rotation));
+    public void moveLeft(){
+        nextMove = new Movement(new GridPoint2(Direction.LEFT.vector), Direction.LEFT.rotation);
+//        moveCommand(trees, width, height,
+//                    new Movement(new GridPoint2(Direction.LEFT.vector), Direction.LEFT.rotation));
     }
 
-    public void moveRight(List<Tree> trees, int width, int height){
-        moveCommand(trees, width, height,
-                    new Movement(new GridPoint2(Direction.RIGHT.vector), Direction.RIGHT.rotation));
+    public void moveRight(){
+        nextMove = new Movement(new GridPoint2(Direction.RIGHT.vector), Direction.RIGHT.rotation);
+//        moveCommand(trees, width, height,
+ //                   new Movement(new GridPoint2(Direction.RIGHT.vector), Direction.RIGHT.rotation));
     }
 }
 
