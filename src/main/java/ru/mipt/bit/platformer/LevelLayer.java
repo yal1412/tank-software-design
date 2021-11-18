@@ -21,7 +21,7 @@ public class LevelLayer {
     public TileMovement tileMovement;
     public TiledMapTileLayer groundLayer;
 
-    LevelLayer(TiledMap load, Batch batch){
+    public LevelLayer(TiledMap load, Batch batch){
         level = load;
         levelRenderer = createSingleLayerMapRenderer(level, batch);
         groundLayer = getSingleLayer(level);
