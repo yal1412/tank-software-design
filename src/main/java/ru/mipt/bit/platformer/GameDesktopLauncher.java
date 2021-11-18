@@ -17,8 +17,6 @@ import java.util.List;
 
 public class GameDesktopLauncher implements ApplicationListener {
 
-    private static final float MOVEMENT_SPEED = 0.4f;
-
     private Batch batch;
 
     private LevelLayer levelLayer;
@@ -62,7 +60,7 @@ public class GameDesktopLauncher implements ApplicationListener {
         // clear the screen
         Drawer.clearScreen();
 
-        tank.move(trees, MOVEMENT_SPEED, width, height);
+        tank.move(trees, width, height);
         // calculate interpolated player screen coordinates
         levelLayer.updatePlayerPlacement(tank, tankTexture);
         // render each tile of the level

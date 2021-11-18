@@ -10,8 +10,8 @@ import static com.badlogic.gdx.math.MathUtils.isEqual;
 import static ru.mipt.bit.platformer.util.GdxGameUtils.continueProgress;
 
 public class Tank {
+    private static final float MOVEMENT_SPEED = 0.4f;
 
-//    private final TankTexture texture;
     // player current position coordinates on level 10x8 grid (e.g. x=0, y=1)
     private final GridPoint2 coordinates;
     // which tile the player want to go next
@@ -71,7 +71,7 @@ public class Tank {
                 possibleCoordinates.y >= 0 && possibleCoordinates.y < height;
     }
 
-    public void move(List<Tree> trees, float movementSpeed, int width, int height) {
+    public void move(List<Tree> trees, int width, int height) {
         nextMove = Control.determineDirectionByKey(Gdx.input);
         if (!nextMove.isNull() && hasFinishedMovement()) {
             makeRotation();
@@ -83,7 +83,7 @@ public class Tank {
         }
 
         float deltaTime = Gdx.graphics.getDeltaTime();
-        updateMovementProgress(deltaTime, movementSpeed);
+        updateMovementProgress(deltaTime, MOVEMENT_SPEED);
         if (hasFinishedMovement()) {
             // record that the player has reached his/her destination
             coordinates.set(destinationCoordinates);
