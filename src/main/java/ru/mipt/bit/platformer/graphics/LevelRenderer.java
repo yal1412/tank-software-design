@@ -18,14 +18,17 @@ public class LevelRenderer {
 
     private final LevelLayer levelLayer;
 
-    private final TankTexture tankTexture;
+    private final List<TankTexture> tankTextures;
     private final List<TreeTexture> treeTextures;
 
     public LevelRenderer(List<Tree> trees){
         batch = new SpriteBatch();
         levelLayer = new LevelLayer(new TmxMapLoader().load("level.tmx"), batch);
 
-        tankTexture = new TankTexture(new Texture("images/tank_blue.png"));
+        tankTextures = new ArrayList<>();
+        for (int i = 0; i < trees.size(); i++){
+            tankTextures.add(new TankTexture(new Texture("images/tank_blue.png")));
+        }
 
         treeTextures = new ArrayList<>();
         for (int i = 0; i < trees.size(); i++){
@@ -36,12 +39,12 @@ public class LevelRenderer {
     }
 
     public void render(List<Tank> tanks){
-        for (Tank tank : tanks) {
-            levelLayer.updatePlayerPlacement(tank, tankTexture);
+        for (int i = 0; i < tanks.size(); i++) {
+            levelLayer.updatePlayerPlacement(tanks.get(i), tankTextures.get(i));
         }
         levelLayer.render();
-        for (Tank tank : tanks) {
-            Drawer.draw(batch, tank, tankTexture, treeTextures);
+        for (int i = 0; i < tanks.size(); i++) {
+            Drawer.draw(batch, tanks.get(i), tankTextures.get(i), treeTextures);
         }
     }
 
@@ -49,7 +52,9 @@ public class LevelRenderer {
         for (TreeTexture treeTexture : treeTextures) {
             treeTexture.getTexture().dispose();
         }
-        tankTexture.getBlueTank().dispose();
+        for (TankTexture tankTexture : tankTextures) {
+            tankTexture.getBlueTank().dispose();
+        }
         levelLayer.dispose();
         batch.dispose();
     }
