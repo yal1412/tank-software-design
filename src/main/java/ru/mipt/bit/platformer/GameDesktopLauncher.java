@@ -26,8 +26,8 @@ public class GameDesktopLauncher implements ApplicationListener {
     private TankTexture tankTexture;
     private List<TreeTexture> treeTextures;
 
-    private int height;
-    private int width;
+    private static int height;
+    private static int width;
 
     @Override
     public void create() {
