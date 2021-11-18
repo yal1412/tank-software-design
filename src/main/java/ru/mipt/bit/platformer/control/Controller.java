@@ -1,5 +1,9 @@
 package ru.mipt.bit.platformer.control;
 
+import ru.mipt.bit.platformer.objects.Tree;
+
+import java.util.List;
+
 public class Controller {
     private Command moveUpCommand;
     private Command moveDownCommand;

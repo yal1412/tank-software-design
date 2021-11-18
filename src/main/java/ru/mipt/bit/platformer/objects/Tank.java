@@ -90,6 +90,25 @@ public class Tank {
         }
     }
 
+    public void moveCommand(List<Tree> trees, int width, int height, Movement nextMove) {
+        this.nextMove = nextMove;
+        if (!nextMove.isNull() && hasFinishedMovement()) {
+            makeRotation();
+            // if there is no tree ahead
+            if (noWallAhead(width, height) && notObstacleAhead(trees)){
+                makeMovement();
+                finishMovement();
+            }
+        }
+
+        float deltaTime = Gdx.graphics.getDeltaTime();
+        updateMovementProgress(deltaTime, MOVEMENT_SPEED);
+        if (hasFinishedMovement()) {
+            // record that the player has reached his/her destination
+            coordinates.set(destinationCoordinates);
+        }
+    }
+
     public void updateMovementProgress(float deltaTime, float movementSpeed) {
         movementProgress = continueProgress(movementProgress, deltaTime, movementSpeed);
     }
@@ -118,20 +137,24 @@ public class Tank {
         this.nextMove = nextMove;
     }
 
-    public void moveUp(){
-
+    public void moveUp(List<Tree> trees, int width, int height){
+        moveCommand(trees, width, height,
+                    new Movement(new GridPoint2(Direction.UP.vector), Direction.UP.rotation));
     }
 
-    public void moveDown(){
-
+    public void moveDown(List<Tree> trees, int width, int height){
+        moveCommand(trees, width, height,
+                    new Movement(new GridPoint2(Direction.DOWN.vector), Direction.DOWN.rotation));
     }
 
-    public void moveLeft(){
-
+    public void moveLeft(List<Tree> trees, int width, int height){
+        moveCommand(trees, width, height,
+                    new Movement(new GridPoint2(Direction.LEFT.vector), Direction.LEFT.rotation));
     }
 
-    public void moveRight(){
-
+    public void moveRight(List<Tree> trees, int width, int height){
+        moveCommand(trees, width, height,
+                    new Movement(new GridPoint2(Direction.RIGHT.vector), Direction.RIGHT.rotation));
     }
 }
 

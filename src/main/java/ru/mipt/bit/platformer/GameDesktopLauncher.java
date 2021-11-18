@@ -1,8 +1,10 @@
 package ru.mipt.bit.platformer;
 
 import com.badlogic.gdx.ApplicationListener;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
+import ru.mipt.bit.platformer.control.*;
 import ru.mipt.bit.platformer.graphics.LevelRenderer;
 import ru.mipt.bit.platformer.objects.Tank;
 import ru.mipt.bit.platformer.objects.Tree;
@@ -19,6 +21,8 @@ public class GameDesktopLauncher implements ApplicationListener {
 
     private int height;
     private int width;
+
+    private Controller controller;
 
     @Override
     public void create() {
@@ -38,6 +42,11 @@ public class GameDesktopLauncher implements ApplicationListener {
         }
 
         levelRenderer = new LevelRenderer(trees);
+
+        controller = new Controller(new MoveUpCommand(tank, trees, width, height),
+                                    new MoveDownCommand(tank, trees, width, height),
+                                    new MoveLeftCommand(tank, trees, width, height),
+                                    new MoveRightCommand(tank, trees, width, height));
     }
 
     @Override
@@ -45,9 +54,29 @@ public class GameDesktopLauncher implements ApplicationListener {
         // clear the screen
         Drawer.clearScreen();
 
-        tank.move(trees, width, height);
+        moveTanks();
 
         levelRenderer.render(tank);
+    }
+
+    private void moveTanks() {
+ //       tank.move(trees, width, height);
+
+        int c = (int) (Math.random() * 4);
+        switch (c){
+            case 0:
+                controller.moveUp();
+                break;
+            case 1:
+                controller.moveDown();
+                break;
+            case 2:
+                controller.moveLeft();
+                break;
+            case 3:
+                controller.moveRight();
+                break;
+        }
     }
 
     @Override
