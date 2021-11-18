@@ -2,6 +2,8 @@ package ru.mipt.bit.platformer;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import ru.mipt.bit.platformer.Graphics.TankTexture;
+import ru.mipt.bit.platformer.Graphics.TreeTexture;
 import ru.mipt.bit.platformer.objects.Tank;
 import ru.mipt.bit.platformer.objects.Tree;
 
@@ -16,14 +18,14 @@ public class Drawer {
         Gdx.gl.glClear(GL_COLOR_BUFFER_BIT);
     }
 
-    public static void draw(Batch batch, Tank tank, List<Tree> trees) {
+    public static void draw(Batch batch, Tank tank, TankTexture tankTexture, List<TreeTexture> treeTextures) {
         batch.begin();
         // render player
-        drawTextureRegionUnscaled(batch, tank.getTexture().getGraphics(), tank.getTexture().getRectangle(), tank.getRotation());
+        drawTextureRegionUnscaled(batch, tankTexture.getGraphics(), tankTexture.getRectangle(), tank.getRotation());
 
         // render tree obstacle
-        for (Tree tree : trees) {
-            drawTextureRegionUnscaled(batch, tree.getGraphics(), tree.getRectangle(), 0f);
+        for (TreeTexture treeTexture : treeTextures) {
+            drawTextureRegionUnscaled(batch, treeTexture.getGraphics(), treeTexture.getRectangle(), 0f);
         }
 
         batch.end();

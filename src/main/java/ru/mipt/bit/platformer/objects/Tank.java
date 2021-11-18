@@ -1,8 +1,6 @@
 package ru.mipt.bit.platformer.objects;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.GridPoint2;
 import ru.mipt.bit.platformer.Control;
 
@@ -13,7 +11,7 @@ import static ru.mipt.bit.platformer.util.GdxGameUtils.continueProgress;
 
 public class Tank {
 
-    private final TankTexture texture;
+//    private final TankTexture texture;
     // player current position coordinates on level 10x8 grid (e.g. x=0, y=1)
     private final GridPoint2 coordinates;
     // which tile the player want to go next
@@ -23,8 +21,8 @@ public class Tank {
 
     private Movement nextMove;
 
-    public Tank(Texture tankTexture, GridPoint2 destinationCoordinates) {
-        texture = new TankTexture(tankTexture);
+    public Tank(GridPoint2 destinationCoordinates) {
+//        texture = new TankTexture(tankTexture);
         this.destinationCoordinates = destinationCoordinates;
         coordinates = new GridPoint2(destinationCoordinates);
         rotation = 0f;
@@ -112,17 +110,17 @@ public class Tank {
         return coordinates;
     }
 
-    public TankTexture getTexture() {
-        return texture;
-    }
+//    public TankTexture getTexture() {
+//        return texture;
+//    }
 
     public Movement getNextMove() {
         return nextMove;
     }
 
-    public void dispose() {
-        texture.getBlueTank().dispose();
-    }
+//    public void dispose() {
+//        texture.getBlueTank().dispose();
+//    }
 
     public void setNextMove(Movement nextMove) {
         this.nextMove = nextMove;
