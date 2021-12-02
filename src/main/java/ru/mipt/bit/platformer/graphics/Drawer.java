@@ -17,10 +17,14 @@ public class Drawer {
         Gdx.gl.glClear(GL_COLOR_BUFFER_BIT);
     }
 
-    public static void draw(Batch batch, Tank tank, TankTexture tankTexture, List<TreeTexture> treeTextures) {
+    public static void draw(Batch batch, List<Tank> tanks, List<TankTexture> tankTextures, List<TreeTexture> treeTextures) {
         batch.begin();
         // render player
-        drawTextureRegionUnscaled(batch, tankTexture.getGraphics(), tankTexture.getRectangle(), tank.getRotation());
+        for (int i = 0; i < tanks.size(); i++) {
+            drawTextureRegionUnscaled(batch, tankTextures.get(i).getGraphics(),
+                                      tankTextures.get(i).getRectangle(),
+                                      tanks.get(i).getRotation());
+        }
 
         // render tree obstacle
         for (TreeTexture treeTexture : treeTextures) {
