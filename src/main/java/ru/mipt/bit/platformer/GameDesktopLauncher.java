@@ -5,10 +5,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import ru.mipt.bit.platformer.control.*;
+import ru.mipt.bit.platformer.generators.FileGenerator;
+import ru.mipt.bit.platformer.generators.Level;
+import ru.mipt.bit.platformer.generators.newLevelGenerator;
 import ru.mipt.bit.platformer.graphics.LevelRenderer;
 import ru.mipt.bit.platformer.objects.Tank;
 import ru.mipt.bit.platformer.objects.Tree;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,27 +31,25 @@ public class GameDesktopLauncher implements ApplicationListener {
     @Override
     public void create() {
 
-        LevelGenerator levelGenerator = new LevelGenerator();
-        levelGenerator.generateLevelFromFile("src/main/resources/startingSettings/level.txt");
+        newLevelGenerator levelGenerator = new FileGenerator();
+//        levelGenerator.generateLevelFromFile("src/main/resources/startingSettings/level.txt");
+        Level level = levelGenerator.getLevel();
 
-        width = levelGenerator.getWidth();
-        height = levelGenerator.getHeight();
+        width = level.getWidth();
+        height = level.getHeight();
  //       levelGenerator.generateRandomCoordinates(5);
 
-        tanks = new ArrayList<>();
+        tanks = level.getTanks();
         controllers = new ArrayList<>();
-        for (int i = 0; i < levelGenerator.getTankCoordinates().size(); i++){
-            tanks.add(new Tank(levelGenerator.getTankCoordinates().get(i)));
-            controllers.add(new Controller(new MoveUpCommand(tanks.get(i)),
-                            new MoveDownCommand(tanks.get(i)),
-                            new MoveLeftCommand(tanks.get(i)),
-                            new MoveRightCommand(tanks.get(i))));
+        for (Tank tank : tanks) {
+//            tanks.add(new Tank(levelGenerator.getTankCoordinates().get(i)));
+            controllers.add(new Controller(new MoveUpCommand(tank),
+                            new MoveDownCommand(tank),
+                            new MoveLeftCommand(tank),
+                            new MoveRightCommand(tank)));
         }
 
-        trees = new ArrayList<>();
-        for (int i = 0; i < levelGenerator.getTreeCoordinates().size(); i++){
-            trees.add(new Tree(levelGenerator.getTreeCoordinates().get(i)));
-        }
+        trees = level.getTrees();
 
         levelRenderer = new LevelRenderer(trees);
     }
