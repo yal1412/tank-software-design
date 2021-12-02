@@ -1,13 +1,10 @@
-package ru.mipt.bit.platformer.control;
+package ru.mipt.bit.platformer.control.commands;
 
 import ru.mipt.bit.platformer.objects.Tank;
-import ru.mipt.bit.platformer.objects.Tree;
 
-import java.util.List;
+public class MoveUpCommand implements Command {
 
-public class MoveUpCommand implements Command{
-
-    private Tank tank;
+    private final Tank tank;
 
     public MoveUpCommand(Tank tank){
         this.tank = tank;

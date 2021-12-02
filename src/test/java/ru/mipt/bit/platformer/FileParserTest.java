@@ -2,6 +2,7 @@ package ru.mipt.bit.platformer;
 
 import com.badlogic.gdx.math.GridPoint2;
 import org.junit.jupiter.api.Test;
+import ru.mipt.bit.platformer.generators.FileParser;
 
 import java.util.ArrayList;
 import java.util.List;

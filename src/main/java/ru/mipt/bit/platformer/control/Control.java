@@ -1,27 +1,36 @@
-package ru.mipt.bit.platformer;
+package ru.mipt.bit.platformer.control;
 
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.math.GridPoint2;
-import ru.mipt.bit.platformer.objects.Direction;
-import ru.mipt.bit.platformer.objects.Movement;
-
-import static com.badlogic.gdx.Input.Keys.*;
-import static com.badlogic.gdx.Input.Keys.D;
+import ru.mipt.bit.platformer.control.commands.Command;
 
 public class Control {
-    public static Movement determineDirectionByKey(Input inputKey){
-        if (inputKey.isKeyPressed(UP) || inputKey.isKeyPressed(W)) {
-            return new Movement(new GridPoint2(Direction.UP.vector), Direction.UP.rotation);
-        }
-        if (inputKey.isKeyPressed(LEFT) || inputKey.isKeyPressed(A)) {
-            return new Movement(new GridPoint2(Direction.LEFT.vector), Direction.LEFT.rotation);
-        }
-        if (inputKey.isKeyPressed(DOWN) || inputKey.isKeyPressed(S)) {
-            return new Movement(new GridPoint2(Direction.DOWN.vector), Direction.DOWN.rotation);
-        }
-        if (inputKey.isKeyPressed(RIGHT) || inputKey.isKeyPressed(D)) {
-            return new Movement(new GridPoint2(Direction.RIGHT.vector), Direction.RIGHT.rotation);
-        }
-        return new Movement();
+    private final Command moveUpCommand;
+    private final Command moveDownCommand;
+    private final Command moveLeftCommand;
+    private final Command moveRightCommand;
+
+    public Control(Command moveUpCommand,
+                           Command moveDownCommand,
+                           Command moveLeftCommand,
+                           Command moveRightCommand){
+        this.moveUpCommand = moveUpCommand;
+        this.moveDownCommand = moveDownCommand;
+        this.moveLeftCommand = moveLeftCommand;
+        this.moveRightCommand = moveRightCommand;
+    }
+
+    public void moveUp(){
+        moveUpCommand.execute();
+    }
+
+    public void moveDown(){
+        moveDownCommand.execute();
+    }
+
+    public void moveLeft(){
+        moveLeftCommand.execute();
+    }
+
+    public void moveRight(){
+        moveRightCommand.execute();
     }
 }

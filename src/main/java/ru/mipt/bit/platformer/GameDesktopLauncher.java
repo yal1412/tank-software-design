@@ -4,13 +4,16 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import ru.mipt.bit.platformer.control.*;
-import ru.mipt.bit.platformer.generators.FileGenerator;
-import ru.mipt.bit.platformer.generators.Level;
+import ru.mipt.bit.platformer.control.commands.MoveDownCommand;
+import ru.mipt.bit.platformer.control.commands.MoveLeftCommand;
+import ru.mipt.bit.platformer.control.commands.MoveRightCommand;
+import ru.mipt.bit.platformer.control.commands.MoveUpCommand;
+import ru.mipt.bit.platformer.objects.Level;
 import ru.mipt.bit.platformer.generators.LevelGenerator;
 import ru.mipt.bit.platformer.generators.RandomGenerator;
+import ru.mipt.bit.platformer.graphics.Drawer;
 import ru.mipt.bit.platformer.graphics.LevelRenderer;
 import ru.mipt.bit.platformer.objects.Tank;
-import ru.mipt.bit.platformer.objects.Tree;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,35 +22,23 @@ public class GameDesktopLauncher implements ApplicationListener {
 
     private LevelRenderer levelRenderer;
 
-    private List<Tank> tanks;
-    private List<Tree> trees;
+    private Level logicLevel;
 
-    private int height;
-    private int width;
+//    private List<Tank> tanks;
+//    private List<Tree> trees;
+//
+//    private int height;
+//    private int width;
 
-    private List<Controller> controllers;
+//    private List<Controller> controllers;
 
     @Override
     public void create() {
-
         LevelGenerator levelGenerator = new RandomGenerator();
-        Level level = levelGenerator.getLevel();
 
-        width = level.getWidth();
-        height = level.getHeight();
-
-        tanks = level.getTanks();
-        controllers = new ArrayList<>();
-        for (Tank tank : tanks) {
-            controllers.add(new Controller(new MoveUpCommand(tank),
-                            new MoveDownCommand(tank),
-                            new MoveLeftCommand(tank),
-                            new MoveRightCommand(tank)));
-        }
-
-        trees = level.getTrees();
-
-        levelRenderer = new LevelRenderer(trees);
+        logicLevel = levelGenerator.getLevel();
+        
+        levelRenderer = new LevelRenderer(logicLevel.getTrees());
     }
 
     @Override
@@ -55,32 +46,9 @@ public class GameDesktopLauncher implements ApplicationListener {
         // clear the screen
         Drawer.clearScreen();
 
-        moveTanks();
+        logicLevel.moveTanks();
 
-        levelRenderer.render(tanks);
-    }
-
-    private void moveTanks() {
- //       tank.move(trees, width, height);
-
-        for (int i = 0; i < tanks.size(); i++) {
-            int c = (int) (Math.random() * 4);
-            switch (c) {
-                case 0:
-                    controllers.get(i).moveUp();
-                    break;
-                case 1:
-                    controllers.get(i).moveDown();
-                    break;
-                case 2:
-                    controllers.get(i).moveLeft();
-                    break;
-                case 3:
-                    controllers.get(i).moveRight();
-                    break;
-            }
-            tanks.get(i).moveCommand(trees, width, height);
-        }
+        levelRenderer.render(logicLevel.getTanks());
     }
 
     @Override

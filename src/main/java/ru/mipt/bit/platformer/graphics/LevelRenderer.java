@@ -4,8 +4,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import ru.mipt.bit.platformer.Drawer;
-import ru.mipt.bit.platformer.LevelLayer;
 import ru.mipt.bit.platformer.objects.Tank;
 import ru.mipt.bit.platformer.objects.Tree;
 
@@ -43,9 +41,9 @@ public class LevelRenderer {
             levelLayer.updatePlayerPlacement(tanks.get(i), tankTextures.get(i));
         }
         levelLayer.render();
-        for (int i = 0; i < tanks.size(); i++) {
-            Drawer.draw(batch, tanks.get(i), tankTextures.get(i), treeTextures);
-        }
+
+        Drawer.draw(batch, tanks, tankTextures, treeTextures);
+
     }
 
     public void dispose(){
