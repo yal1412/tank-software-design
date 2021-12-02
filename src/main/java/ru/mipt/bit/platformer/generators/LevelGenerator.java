@@ -1,5 +1,5 @@
 package ru.mipt.bit.platformer.generators;
 
-public interface newLevelGenerator {
+public interface LevelGenerator {
     Level getLevel();
 }

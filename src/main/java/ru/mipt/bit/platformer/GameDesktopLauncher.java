@@ -1,18 +1,17 @@
 package ru.mipt.bit.platformer;
 
 import com.badlogic.gdx.ApplicationListener;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import ru.mipt.bit.platformer.control.*;
 import ru.mipt.bit.platformer.generators.FileGenerator;
 import ru.mipt.bit.platformer.generators.Level;
-import ru.mipt.bit.platformer.generators.newLevelGenerator;
+import ru.mipt.bit.platformer.generators.LevelGenerator;
+import ru.mipt.bit.platformer.generators.RandomGenerator;
 import ru.mipt.bit.platformer.graphics.LevelRenderer;
 import ru.mipt.bit.platformer.objects.Tank;
 import ru.mipt.bit.platformer.objects.Tree;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,18 +30,15 @@ public class GameDesktopLauncher implements ApplicationListener {
     @Override
     public void create() {
 
-        newLevelGenerator levelGenerator = new FileGenerator();
-//        levelGenerator.generateLevelFromFile("src/main/resources/startingSettings/level.txt");
+        LevelGenerator levelGenerator = new RandomGenerator();
         Level level = levelGenerator.getLevel();
 
         width = level.getWidth();
         height = level.getHeight();
- //       levelGenerator.generateRandomCoordinates(5);
 
         tanks = level.getTanks();
         controllers = new ArrayList<>();
         for (Tank tank : tanks) {
-//            tanks.add(new Tank(levelGenerator.getTankCoordinates().get(i)));
             controllers.add(new Controller(new MoveUpCommand(tank),
                             new MoveDownCommand(tank),
                             new MoveLeftCommand(tank),

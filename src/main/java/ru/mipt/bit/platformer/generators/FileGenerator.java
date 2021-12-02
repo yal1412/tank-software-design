@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FileGenerator implements newLevelGenerator{
+public class FileGenerator implements LevelGenerator {
 
     private final Level level;
 

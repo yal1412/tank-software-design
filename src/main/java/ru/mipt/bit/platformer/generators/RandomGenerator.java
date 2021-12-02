@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RandomGenerator implements newLevelGenerator{
+public class RandomGenerator implements LevelGenerator {
 
     private final Level level;
     private int numberOfTanks;
@@ -44,7 +44,7 @@ public class RandomGenerator implements newLevelGenerator{
 
     private void getNumbersFromFile(){
         try {
-            File file = new File("src/main/resources/startingSettings/level.txt");
+            File file = new File("src/main/resources/startingSettings/random.txt");
             FileReader fr = new FileReader(file);
             BufferedReader reader = new BufferedReader(fr);
 
