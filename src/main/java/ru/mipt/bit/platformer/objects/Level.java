@@ -1,6 +1,7 @@
 package ru.mipt.bit.platformer.objects;
 
 import com.badlogic.gdx.math.GridPoint2;
+import ru.mipt.bit.platformer.control.ControlByAI;
 import ru.mipt.bit.platformer.control.ControlByKey;
 import ru.mipt.bit.platformer.control.ControlByRandom;
 import ru.mipt.bit.platformer.control.Manager;
@@ -21,6 +22,7 @@ public class Level {
     private int width;
 
     private final List<Manager> managers;
+    ControlByAI aiController;
 
     public Level(){
         tanks = new ArrayList<>();
@@ -36,6 +38,13 @@ public class Level {
 
     public void setWidth(int width) {
         this.width = width;
+    }
+
+    public void createObjects(List<GridPoint2> tankCoordinates, List<GridPoint2> treeCoordinates){
+        createTanks(tankCoordinates);
+        createTrees(treeCoordinates);
+
+        aiController = new ControlByAI(trees, tanks, width, height);
     }
 
     public void createTanks(List<GridPoint2> tankCoordinates) {
@@ -85,6 +94,7 @@ public class Level {
         for (int i = 0; i < tanks.size(); i++) {
             if (tanks.get(i).hasFinishedMovement()) {
                 managers.get(i).executeCommand();
+//                aiController.executeCommand();
             }
         }
         for (Tank tank : tanks) {

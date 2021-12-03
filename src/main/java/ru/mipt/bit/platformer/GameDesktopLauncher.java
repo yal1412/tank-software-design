@@ -3,6 +3,9 @@ package ru.mipt.bit.platformer;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
+import org.awesome.ai.AI;
+import org.awesome.ai.state.GameState;
+import org.awesome.ai.strategy.NotRecommendingAI;
 import ru.mipt.bit.platformer.control.*;
 import ru.mipt.bit.platformer.control.commands.MoveDownCommand;
 import ru.mipt.bit.platformer.control.commands.MoveLeftCommand;
@@ -21,23 +24,15 @@ import java.util.List;
 public class GameDesktopLauncher implements ApplicationListener {
 
     private LevelRenderer levelRenderer;
-
     private Level logicLevel;
 
-//    private List<Tank> tanks;
-//    private List<Tree> trees;
-//
-//    private int height;
-//    private int width;
-
-//    private List<Controller> controllers;
 
     @Override
     public void create() {
         LevelGenerator levelGenerator = new RandomGenerator();
 
         logicLevel = levelGenerator.getLevel();
-        
+
         levelRenderer = new LevelRenderer(logicLevel.getTrees());
     }
 

@@ -100,8 +100,7 @@ public class RandomGenerator implements LevelGenerator {
             treeCoordinates.add(tmpCoordinate);
         }
 
-        level.createTanks(tankCoordinates);
-        level.createTrees(treeCoordinates);
+        level.createObjects(tankCoordinates, treeCoordinates);
     }
 
     @Override

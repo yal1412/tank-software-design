@@ -58,8 +58,7 @@ public class FileGenerator implements LevelGenerator {
             List<GridPoint2> tankCoordinates = new ArrayList<>(FileParser.calculateTankCoordinates(lines));
             List<GridPoint2> treeCoordinates = new ArrayList<>(FileParser.calculateTreeCoordinates(lines));
 
-            level.createTanks(tankCoordinates);
-            level.createTrees(treeCoordinates);
+            level.createObjects(tankCoordinates, treeCoordinates);
 
         } catch (IOException e) {
             e.printStackTrace();
