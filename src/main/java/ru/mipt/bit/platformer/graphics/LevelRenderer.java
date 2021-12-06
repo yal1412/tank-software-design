@@ -4,6 +4,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import ru.mipt.bit.platformer.Event;
+import ru.mipt.bit.platformer.GameObject;
 import ru.mipt.bit.platformer.objects.Tank;
 import ru.mipt.bit.platformer.objects.Tree;
 
@@ -19,12 +21,12 @@ public class LevelRenderer {
     private final List<TankTexture> tankTextures;
     private final List<TreeTexture> treeTextures;
 
-    public LevelRenderer(List<Tree> trees){
+    public LevelRenderer(List<Tank> tanks, List<Tree> trees){
         batch = new SpriteBatch();
         levelLayer = new LevelLayer(new TmxMapLoader().load("level.tmx"), batch);
 
         tankTextures = new ArrayList<>();
-        for (int i = 0; i < trees.size(); i++){
+        for (int i = 0; i < tanks.size(); i++){
             tankTextures.add(new TankTexture(new Texture("images/tank_blue.png")));
         }
 
@@ -57,4 +59,13 @@ public class LevelRenderer {
         batch.dispose();
     }
 
+    public void update(Event event, int id) {
+        switch (event){
+            case RemoveTank:
+                tankTextures.remove(id);
+                break;
+            default:
+                break;
+        }
+    }
 }

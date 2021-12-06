@@ -1,4 +1,4 @@
-package ru.mipt.bit.platformer.control;
+package ru.mipt.bit.platformer.control.aicontrol;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.GridPoint2;

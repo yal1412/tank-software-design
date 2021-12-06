@@ -23,7 +23,7 @@ import java.util.List;
 
 public class GameDesktopLauncher implements ApplicationListener {
 
-    private LevelRenderer levelRenderer;
+//    private LevelRenderer levelRenderer;
     private Level logicLevel;
 
 
@@ -33,7 +33,7 @@ public class GameDesktopLauncher implements ApplicationListener {
 
         logicLevel = levelGenerator.getLevel();
 
-        levelRenderer = new LevelRenderer(logicLevel.getTrees());
+//        levelRenderer = new LevelRenderer(logicLevel.getTrees());
     }
 
     @Override
@@ -43,7 +43,7 @@ public class GameDesktopLauncher implements ApplicationListener {
 
         logicLevel.moveTanks();
 
-        levelRenderer.render(logicLevel.getTanks());
+        logicLevel.levelRenderer.render(logicLevel.getTanks());
     }
 
     @Override
@@ -63,7 +63,7 @@ public class GameDesktopLauncher implements ApplicationListener {
 
     @Override
     public void dispose() {
-        levelRenderer.dispose();
+        logicLevel.levelRenderer.dispose();
     }
 
     public static void main(String[] args) {

@@ -4,6 +4,7 @@ import org.awesome.ai.Action;
 import org.awesome.ai.Recommendation;
 import org.awesome.ai.state.GameState;
 import org.awesome.ai.strategy.NotRecommendingAI;
+import ru.mipt.bit.platformer.control.aicontrol.GameStateCreator;
 import ru.mipt.bit.platformer.control.commands.*;
 import org.awesome.ai.AI;
 import ru.mipt.bit.platformer.objects.Tank;
@@ -13,12 +14,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class ControlByAI implements Manager{
+public class ControlByAIAdaptor implements Manager{
     private GameState gameState;
     private AI ai;
     private final List<Command> tanksCommands;
 
-    public ControlByAI(List<Tree> trees, List<Tank> tanks, int width, int height){
+    public ControlByAIAdaptor(List<Tree> trees, List<Tank> tanks, int width, int height){
         ai = new NotRecommendingAI();
 
         GameStateCreator creator = new GameStateCreator();

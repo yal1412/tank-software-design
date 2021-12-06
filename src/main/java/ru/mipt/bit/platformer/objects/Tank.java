@@ -1,7 +1,9 @@
 package ru.mipt.bit.platformer.objects;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.GridPoint2;
+import ru.mipt.bit.platformer.GameObject;
 import ru.mipt.bit.platformer.control.ControlByKey;
 
 import java.util.List;
@@ -9,7 +11,7 @@ import java.util.List;
 import static com.badlogic.gdx.math.MathUtils.isEqual;
 import static ru.mipt.bit.platformer.util.GdxGameUtils.continueProgress;
 
-public class Tank {
+public class Tank implements GameObject {
 
     private static final float MOVEMENT_SPEED = 0.4f;
 

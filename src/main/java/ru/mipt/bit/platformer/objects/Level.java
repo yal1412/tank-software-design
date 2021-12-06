@@ -1,7 +1,10 @@
 package ru.mipt.bit.platformer.objects;
 
 import com.badlogic.gdx.math.GridPoint2;
-import ru.mipt.bit.platformer.control.ControlByAI;
+import ru.mipt.bit.platformer.Event;
+import ru.mipt.bit.platformer.GameObject;
+import ru.mipt.bit.platformer.Observable;
+import ru.mipt.bit.platformer.control.ControlByAIAdaptor;
 import ru.mipt.bit.platformer.control.ControlByKey;
 import ru.mipt.bit.platformer.control.ControlByRandom;
 import ru.mipt.bit.platformer.control.Manager;
@@ -9,11 +12,14 @@ import ru.mipt.bit.platformer.control.commands.MoveDownCommand;
 import ru.mipt.bit.platformer.control.commands.MoveLeftCommand;
 import ru.mipt.bit.platformer.control.commands.MoveRightCommand;
 import ru.mipt.bit.platformer.control.commands.MoveUpCommand;
+import ru.mipt.bit.platformer.graphics.LevelRenderer;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Level {
+public class Level implements Observable {
+
+    public LevelRenderer levelRenderer;
 
     private final List<Tank> tanks;
     private final List<Tree> trees;
@@ -22,7 +28,7 @@ public class Level {
     private int width;
 
     private final List<Manager> managers;
-    ControlByAI aiController;
+    ControlByAIAdaptor aiController;
 
     public Level(){
         tanks = new ArrayList<>();
@@ -44,7 +50,9 @@ public class Level {
         createTanks(tankCoordinates);
         createTrees(treeCoordinates);
 
-        aiController = new ControlByAI(trees, tanks, width, height);
+        aiController = new ControlByAIAdaptor(trees, tanks, width, height);
+
+        levelRenderer = new LevelRenderer(tanks, trees);
     }
 
     public void createTanks(List<GridPoint2> tankCoordinates) {
@@ -55,12 +63,19 @@ public class Level {
     }
 
     private void createControllers() {
-        managers.add(new ControlByKey(new MoveUpCommand(tanks.get(0)),
-                        new MoveDownCommand(tanks.get(0)),
-                        new MoveLeftCommand(tanks.get(0)),
-                        new MoveRightCommand(tanks.get(0))));
+        int i = 0;
+        if (managers.isEmpty()) {
+            managers.add(new ControlByKey(new MoveUpCommand(tanks.get(0)),
+                    new MoveDownCommand(tanks.get(0)),
+                    new MoveLeftCommand(tanks.get(0)),
+                    new MoveRightCommand(tanks.get(0))));
+            i = 1;
+        }
+        else {
+            i = managers.size();
+        }
 
-        for (int i = 1; i < tanks.size(); i++) {
+        for ( ; i < tanks.size(); i++) {
             managers.add(new ControlByRandom(new MoveUpCommand(tanks.get(i)),
                             new MoveDownCommand(tanks.get(i)),
                             new MoveLeftCommand(tanks.get(i)),
@@ -100,5 +115,30 @@ public class Level {
         for (Tank tank : tanks) {
             tank.moveCommand(trees, width, height);
         }
+    }
+
+    @Override
+    public void addObserver(Object o) {
+
+    }
+
+    @Override
+    public void removeObserver(Object o) {
+
+    }
+
+    @Override
+    public void notifyObservers(Event event, GameObject object) {
+        switch (event){
+            case RemoveTank:
+                int id = tanks.indexOf((Tank) object);
+                tanks.remove(id);
+                managers.remove(id);
+                levelRenderer.update(event, id);
+                break;
+            default:
+                break;
+        }
+
     }
 }
