@@ -3,6 +3,7 @@ package ru.mipt.bit.platformer.objects;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.GridPoint2;
+import ru.mipt.bit.platformer.CollisionChecker;
 import ru.mipt.bit.platformer.GameObject;
 import ru.mipt.bit.platformer.control.ControlByKey;
 
@@ -15,21 +16,23 @@ public class Tank implements GameObject {
 
     private static final float MOVEMENT_SPEED = 0.4f;
 
-    // player current position coordinates on level 10x8 grid (e.g. x=0, y=1)
     private final GridPoint2 coordinates;
-    // which tile the player want to go next
     private final GridPoint2 destinationCoordinates;
+
     private float movementProgress;
     private float rotation;
 
     private Movement nextMove;
 
-    public Tank(GridPoint2 destinationCoordinates) {
+    private final CollisionChecker collisionChecker;
+
+    public Tank(GridPoint2 destinationCoordinates, CollisionChecker collisionChecker) {
         this.destinationCoordinates = destinationCoordinates;
         coordinates = new GridPoint2(destinationCoordinates);
         rotation = 0f;
         movementProgress = 1f;
         nextMove = new Movement();
+        this.collisionChecker = collisionChecker;
     }
 
     public boolean hasFinishedMovement() {
@@ -67,6 +70,10 @@ public class Tank implements GameObject {
         return true;
     }
 
+    public boolean isMovementPossible(GridPoint2 obstacleCoordinates, GridPoint2 newPosition) {
+        return !obstacleCoordinates.equals(newPosition);
+    }
+
     private boolean noWallAhead(int width, int height) {
         GridPoint2 possibleCoordinates = tryMovement();
         return possibleCoordinates.x >= 0 && possibleCoordinates.x < width &&
@@ -77,7 +84,7 @@ public class Tank implements GameObject {
         if (!nextMove.isNull() && hasFinishedMovement()) {
             makeRotation();
             // if there is no tree ahead
-            if (noWallAhead(width, height) && notObstacleAhead(trees)){
+            if (noCollisions()){
                 makeMovement();
                 finishMovement();
             }
@@ -137,6 +144,11 @@ public class Tank implements GameObject {
 
     public void shoot(){
 
+    }
+
+    public boolean noCollisions() {
+        GridPoint2 newCoordinates = tryMovement();
+        return collisionChecker.noCollisionsForTank(newCoordinates, this);
     }
 }
 

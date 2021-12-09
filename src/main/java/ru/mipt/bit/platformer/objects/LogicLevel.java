@@ -1,6 +1,7 @@
 package ru.mipt.bit.platformer.objects;
 
 import com.badlogic.gdx.math.GridPoint2;
+import ru.mipt.bit.platformer.CollisionChecker;
 import ru.mipt.bit.platformer.Event;
 import ru.mipt.bit.platformer.GameObject;
 import ru.mipt.bit.platformer.Observable;
@@ -25,6 +26,8 @@ public class LogicLevel implements Observable {
     private int height;
     private int width;
 
+    private final CollisionChecker collisionChecker;
+
 //    private final List<Manager> managers;
     ControlByAIAdaptor aiController;
 
@@ -34,15 +37,18 @@ public class LogicLevel implements Observable {
         bullets = new ArrayList<>();
         height = 0;
         width = 0;
+        collisionChecker = new CollisionChecker();
 //        managers = new ArrayList<>();
     }
 
     public void setHeight(int height) {
         this.height = height;
+        collisionChecker.setHeight(height);
     }
 
     public void setWidth(int width) {
         this.width = width;
+        collisionChecker.setWidth(width);
     }
 
     public void createObjects(List<GridPoint2> tankCoordinates, List<GridPoint2> treeCoordinates){
@@ -56,7 +62,9 @@ public class LogicLevel implements Observable {
 
     public void createTanks(List<GridPoint2> tankCoordinates) {
         for (GridPoint2 coordinate : tankCoordinates) {
-            tanks.add(new Tank(coordinate));
+            Tank tank = new Tank(coordinate, collisionChecker);
+            tanks.add(tank);
+            collisionChecker.addTank(tank);
         }
 //        createControllers();
     }
@@ -86,7 +94,9 @@ public class LogicLevel implements Observable {
 
     public void createTrees(List<GridPoint2> treeCoordinates) {
         for (GridPoint2 coordinate : treeCoordinates) {
-            trees.add(new Tree(coordinate));
+            Tree tree = new Tree(coordinate);
+            trees.add(tree);
+            collisionChecker.addTree(tree);
         }
     }
 
