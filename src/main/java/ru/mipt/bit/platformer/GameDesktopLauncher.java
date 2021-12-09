@@ -3,28 +3,16 @@ package ru.mipt.bit.platformer;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
-import org.awesome.ai.AI;
-import org.awesome.ai.state.GameState;
-import org.awesome.ai.strategy.NotRecommendingAI;
-import ru.mipt.bit.platformer.control.*;
-import ru.mipt.bit.platformer.control.commands.MoveDownCommand;
-import ru.mipt.bit.platformer.control.commands.MoveLeftCommand;
-import ru.mipt.bit.platformer.control.commands.MoveRightCommand;
-import ru.mipt.bit.platformer.control.commands.MoveUpCommand;
-import ru.mipt.bit.platformer.objects.Level;
 import ru.mipt.bit.platformer.generators.LevelGenerator;
 import ru.mipt.bit.platformer.generators.RandomGenerator;
 import ru.mipt.bit.platformer.graphics.Drawer;
-import ru.mipt.bit.platformer.graphics.LevelRenderer;
-import ru.mipt.bit.platformer.objects.Tank;
-
-import java.util.ArrayList;
-import java.util.List;
+import ru.mipt.bit.platformer.objects.LogicLevel;
 
 public class GameDesktopLauncher implements ApplicationListener {
 
 //    private LevelRenderer levelRenderer;
-    private Level logicLevel;
+    private LogicLevel logicLevel;
+    private GameDriver gameDriver;
 
 
     @Override
@@ -32,6 +20,9 @@ public class GameDesktopLauncher implements ApplicationListener {
         LevelGenerator levelGenerator = new RandomGenerator();
 
         logicLevel = levelGenerator.getLevel();
+        gameDriver = new GameDriver(logicLevel);
+        gameDriver.createManagerForPlayer();
+        gameDriver.createManagerForTanks();
 
 //        levelRenderer = new LevelRenderer(logicLevel.getTrees());
     }
@@ -41,7 +32,8 @@ public class GameDesktopLauncher implements ApplicationListener {
         // clear the screen
         Drawer.clearScreen();
 
-        logicLevel.moveTanks();
+        gameDriver.generateCommands();
+        gameDriver.moveObjects();
 
         logicLevel.levelRenderer.render(logicLevel.getTanks());
     }

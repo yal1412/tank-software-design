@@ -8,8 +8,9 @@ public class ControlByRandom implements Manager{
     public ControlByRandom(Command moveUpCommand,
                    Command moveDownCommand,
                    Command moveLeftCommand,
-                   Command moveRightCommand){
-        control = new Control(moveUpCommand, moveDownCommand, moveLeftCommand, moveRightCommand);
+                   Command moveRightCommand,
+                           Command shootCommand){
+        control = new Control(moveUpCommand, moveDownCommand, moveLeftCommand, moveRightCommand, shootCommand);
     }
 
     @Override

@@ -8,34 +8,33 @@ import ru.mipt.bit.platformer.control.ControlByAIAdaptor;
 import ru.mipt.bit.platformer.control.ControlByKey;
 import ru.mipt.bit.platformer.control.ControlByRandom;
 import ru.mipt.bit.platformer.control.Manager;
-import ru.mipt.bit.platformer.control.commands.MoveDownCommand;
-import ru.mipt.bit.platformer.control.commands.MoveLeftCommand;
-import ru.mipt.bit.platformer.control.commands.MoveRightCommand;
-import ru.mipt.bit.platformer.control.commands.MoveUpCommand;
+import ru.mipt.bit.platformer.control.commands.*;
 import ru.mipt.bit.platformer.graphics.LevelRenderer;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Level implements Observable {
+public class LogicLevel implements Observable {
 
     public LevelRenderer levelRenderer;
 
     private final List<Tank> tanks;
     private final List<Tree> trees;
+    private final List<Bullet> bullets;
 
     private int height;
     private int width;
 
-    private final List<Manager> managers;
+//    private final List<Manager> managers;
     ControlByAIAdaptor aiController;
 
-    public Level(){
+    public LogicLevel(){
         tanks = new ArrayList<>();
         trees = new ArrayList<>();
+        bullets = new ArrayList<>();
         height = 0;
         width = 0;
-        managers = new ArrayList<>();
+//        managers = new ArrayList<>();
     }
 
     public void setHeight(int height) {
@@ -50,7 +49,7 @@ public class Level implements Observable {
         createTanks(tankCoordinates);
         createTrees(treeCoordinates);
 
-        aiController = new ControlByAIAdaptor(trees, tanks, width, height);
+//        aiController = new ControlByAIAdaptor();
 
         levelRenderer = new LevelRenderer(tanks, trees);
     }
@@ -59,29 +58,31 @@ public class Level implements Observable {
         for (GridPoint2 coordinate : tankCoordinates) {
             tanks.add(new Tank(coordinate));
         }
-        createControllers();
+//        createControllers();
     }
 
-    private void createControllers() {
-        int i = 0;
-        if (managers.isEmpty()) {
-            managers.add(new ControlByKey(new MoveUpCommand(tanks.get(0)),
-                    new MoveDownCommand(tanks.get(0)),
-                    new MoveLeftCommand(tanks.get(0)),
-                    new MoveRightCommand(tanks.get(0))));
-            i = 1;
-        }
-        else {
-            i = managers.size();
-        }
-
-        for ( ; i < tanks.size(); i++) {
-            managers.add(new ControlByRandom(new MoveUpCommand(tanks.get(i)),
-                            new MoveDownCommand(tanks.get(i)),
-                            new MoveLeftCommand(tanks.get(i)),
-                            new MoveRightCommand(tanks.get(i))));
-        }
-    }
+//    private void createControllers() {
+//        int i = 0;
+//        if (managers.isEmpty()) {
+//            managers.add(new ControlByKey(new MoveUpCommand(tanks.get(0)),
+//                    new MoveDownCommand(tanks.get(0)),
+//                    new MoveLeftCommand(tanks.get(0)),
+//                    new MoveRightCommand(tanks.get(0)),
+//                    new ShootCommand(tanks.get(0))));
+//            i = 1;
+//        }
+//        else {
+//            i = managers.size();
+//        }
+//
+//        for (; i < tanks.size(); i++) {
+//            managers.add(new ControlByRandom(new MoveUpCommand(tanks.get(i)),
+//                    new MoveDownCommand(tanks.get(i)),
+//                    new MoveLeftCommand(tanks.get(i)),
+//                    new MoveRightCommand(tanks.get(i)),
+//                    new ShootCommand(tanks.get(i))));
+//        }
+//    }
 
     public void createTrees(List<GridPoint2> treeCoordinates) {
         for (GridPoint2 coordinate : treeCoordinates) {
@@ -106,12 +107,6 @@ public class Level implements Observable {
     }
 
     public void moveTanks() {
-        for (int i = 0; i < tanks.size(); i++) {
-            if (tanks.get(i).hasFinishedMovement()) {
-                managers.get(i).executeCommand();
-//                aiController.executeCommand();
-            }
-        }
         for (Tank tank : tanks) {
             tank.moveCommand(trees, width, height);
         }
@@ -129,16 +124,9 @@ public class Level implements Observable {
 
     @Override
     public void notifyObservers(Event event, GameObject object) {
-        switch (event){
-            case RemoveTank:
-                int id = tanks.indexOf((Tank) object);
-                tanks.remove(id);
-                managers.remove(id);
-                levelRenderer.update(event, id);
-                break;
-            default:
-                break;
-        }
 
+    }
+
+    public void moveBullets() {
     }
 }

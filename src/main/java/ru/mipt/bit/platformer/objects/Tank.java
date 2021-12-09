@@ -134,5 +134,9 @@ public class Tank implements GameObject {
     public void moveRight(){
         nextMove = new Movement(new GridPoint2(Direction.RIGHT.vector), Direction.RIGHT.rotation);
     }
+
+    public void shoot(){
+
+    }
 }
 

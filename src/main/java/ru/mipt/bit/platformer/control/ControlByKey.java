@@ -16,10 +16,11 @@ public class ControlByKey implements Manager{
     private final Control control;
 
     public ControlByKey(Command moveUpCommand,
-                           Command moveDownCommand,
-                           Command moveLeftCommand,
-                           Command moveRightCommand){
-        control = new Control(moveUpCommand, moveDownCommand, moveLeftCommand, moveRightCommand);
+                        Command moveDownCommand,
+                        Command moveLeftCommand,
+                        Command moveRightCommand,
+                        Command shootCommand) {
+        control = new Control(moveUpCommand, moveDownCommand, moveLeftCommand, moveRightCommand, shootCommand);
     }
 
     @Override
@@ -35,6 +36,9 @@ public class ControlByKey implements Manager{
         }
         if (Gdx.input.isKeyPressed(RIGHT) || Gdx.input.isKeyPressed(D)) {
             control.moveRight();
+        }
+        if (Gdx.input.isKeyPressed(SPACE)){
+            control.shoot();
         }
     }
 }

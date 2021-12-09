@@ -1,7 +1,7 @@
 package ru.mipt.bit.platformer.generators;
 
 import com.badlogic.gdx.math.GridPoint2;
-import ru.mipt.bit.platformer.objects.Level;
+import ru.mipt.bit.platformer.objects.LogicLevel;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -12,10 +12,10 @@ import java.util.List;
 
 public class FileGenerator implements LevelGenerator {
 
-    private final Level level;
+    private final LogicLevel logicLevel;
 
     public FileGenerator(){
-        level = new Level();
+        logicLevel = new LogicLevel();
 
         getFieldSizeFromFile();
         generateLevelFromFile();
@@ -32,8 +32,8 @@ public class FileGenerator implements LevelGenerator {
 
             if (line != null) {
                 sizes = line.split(" ");
-                level.setWidth(Integer.parseInt(sizes[0]));
-                level.setHeight(Integer.parseInt(sizes[1]));
+                logicLevel.setWidth(Integer.parseInt(sizes[0]));
+                logicLevel.setHeight(Integer.parseInt(sizes[1]));
             }
 
         } catch (IOException e) {
@@ -58,7 +58,7 @@ public class FileGenerator implements LevelGenerator {
             List<GridPoint2> tankCoordinates = new ArrayList<>(FileParser.calculateTankCoordinates(lines));
             List<GridPoint2> treeCoordinates = new ArrayList<>(FileParser.calculateTreeCoordinates(lines));
 
-            level.createObjects(tankCoordinates, treeCoordinates);
+            logicLevel.createObjects(tankCoordinates, treeCoordinates);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -66,7 +66,7 @@ public class FileGenerator implements LevelGenerator {
     }
 
     @Override
-    public Level getLevel() {
-        return level;
+    public LogicLevel getLevel() {
+        return logicLevel;
     }
 }

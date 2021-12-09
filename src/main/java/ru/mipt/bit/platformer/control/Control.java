@@ -7,15 +7,18 @@ public class Control {
     private final Command moveDownCommand;
     private final Command moveLeftCommand;
     private final Command moveRightCommand;
+    private final Command shootCommand;
 
     public Control(Command moveUpCommand,
                            Command moveDownCommand,
                            Command moveLeftCommand,
-                           Command moveRightCommand){
+                           Command moveRightCommand,
+                   Command shootCommand){
         this.moveUpCommand = moveUpCommand;
         this.moveDownCommand = moveDownCommand;
         this.moveLeftCommand = moveLeftCommand;
         this.moveRightCommand = moveRightCommand;
+        this.shootCommand = shootCommand;
     }
 
     public void moveUp(){
@@ -33,4 +36,6 @@ public class Control {
     public void moveRight(){
         moveRightCommand.execute();
     }
+
+    public void shoot(){ shootCommand.execute(); }
 }

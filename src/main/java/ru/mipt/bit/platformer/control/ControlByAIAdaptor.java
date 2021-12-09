@@ -7,6 +7,7 @@ import org.awesome.ai.strategy.NotRecommendingAI;
 import ru.mipt.bit.platformer.control.aicontrol.GameStateCreator;
 import ru.mipt.bit.platformer.control.commands.*;
 import org.awesome.ai.AI;
+import ru.mipt.bit.platformer.objects.LogicLevel;
 import ru.mipt.bit.platformer.objects.Tank;
 import ru.mipt.bit.platformer.objects.Tree;
 
@@ -15,15 +16,21 @@ import java.util.List;
 
 
 public class ControlByAIAdaptor implements Manager{
+    private LogicLevel logicLevel;
     private GameState gameState;
     private AI ai;
     private final List<Command> tanksCommands;
 
-    public ControlByAIAdaptor(List<Tree> trees, List<Tank> tanks, int width, int height){
+    public ControlByAIAdaptor(LogicLevel logicLevel){
+        this.logicLevel = logicLevel;
+
         ai = new NotRecommendingAI();
 
         GameStateCreator creator = new GameStateCreator();
-        gameState = creator.createGameState(trees, tanks, width, height);
+        gameState = creator.createGameState(logicLevel.getTrees(),
+                                            logicLevel.getTanks(),
+                                            logicLevel.getWidth(),
+                                            logicLevel.getHeight());
 
         tanksCommands = new ArrayList<>();
     }
@@ -50,12 +57,12 @@ public class ControlByAIAdaptor implements Manager{
         Action action = recommendation.getAction();
         switch(action) {
             case MoveEast:
-                return new MoveRightCommand(actor);
+                return new MoveRightCommand(actor, logicLevel);
             case MoveWest:
-                return new MoveLeftCommand(actor);
+                return new MoveLeftCommand(actor, logicLevel);
             case MoveNorth:
-                return new MoveUpCommand(actor);
+                return new MoveUpCommand(actor, logicLevel);
         }
-        return new MoveDownCommand(actor);
+        return new MoveDownCommand(actor, logicLevel);
     }
 }

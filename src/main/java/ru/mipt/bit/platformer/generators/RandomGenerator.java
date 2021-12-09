@@ -1,7 +1,7 @@
 package ru.mipt.bit.platformer.generators;
 
 import com.badlogic.gdx.math.GridPoint2;
-import ru.mipt.bit.platformer.objects.Level;
+import ru.mipt.bit.platformer.objects.LogicLevel;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -12,12 +12,12 @@ import java.util.List;
 
 public class RandomGenerator implements LevelGenerator {
 
-    private final Level level;
+    private final LogicLevel logicLevel;
     private int numberOfTanks;
     private int numberOfTrees;
 
     public RandomGenerator(){
-        level = new Level();
+        logicLevel = new LogicLevel();
 
         getFieldSizeFromFile();
         generateRandomObjects();
@@ -34,8 +34,8 @@ public class RandomGenerator implements LevelGenerator {
 
             if (line != null) {
                 sizes = line.split(" ");
-                level.setWidth(Integer.parseInt(sizes[0]));
-                level.setHeight(Integer.parseInt(sizes[1]));
+                logicLevel.setWidth(Integer.parseInt(sizes[0]));
+                logicLevel.setHeight(Integer.parseInt(sizes[1]));
             }
 
         } catch (IOException e) {
@@ -58,12 +58,12 @@ public class RandomGenerator implements LevelGenerator {
                 numberOfTrees = Integer.parseInt(sizes[1]);
             }
 
-            if (numberOfTanks > level.getWidth() * level.getHeight() - 2){
-                numberOfTanks = level.getWidth() * level.getHeight() - 2;
+            if (numberOfTanks > logicLevel.getWidth() * logicLevel.getHeight() - 2){
+                numberOfTanks = logicLevel.getWidth() * logicLevel.getHeight() - 2;
             }
 
-            if (numberOfTrees + numberOfTanks > level.getWidth() * level.getHeight()){
-                numberOfTrees = level.getWidth() * level.getHeight() - numberOfTanks;
+            if (numberOfTrees + numberOfTanks > logicLevel.getWidth() * logicLevel.getHeight()){
+                numberOfTrees = logicLevel.getWidth() * logicLevel.getHeight() - numberOfTanks;
             }
 
         } catch (IOException e) {
@@ -72,7 +72,7 @@ public class RandomGenerator implements LevelGenerator {
     }
 
     private GridPoint2 generateCoordinateOnField(){
-        return new GridPoint2((int) (Math.random() * level.getWidth()), (int) (Math.random() * level.getHeight()));
+        return new GridPoint2((int) (Math.random() * logicLevel.getWidth()), (int) (Math.random() * logicLevel.getHeight()));
     }
 
     private void generateRandomObjects() {
@@ -100,11 +100,11 @@ public class RandomGenerator implements LevelGenerator {
             treeCoordinates.add(tmpCoordinate);
         }
 
-        level.createObjects(tankCoordinates, treeCoordinates);
+        logicLevel.createObjects(tankCoordinates, treeCoordinates);
     }
 
     @Override
-    public Level getLevel() {
-        return level;
+    public LogicLevel getLevel() {
+        return logicLevel;
     }
 }
