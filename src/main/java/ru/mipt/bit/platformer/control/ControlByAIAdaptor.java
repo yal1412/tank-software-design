@@ -37,7 +37,7 @@ public class ControlByAIAdaptor implements Manager{
 
     @Override
     public void executeCommand() {
-        System.out.println("Execute Command");
+//        System.out.println("Execute Command");
         recommendCommands();
         for (Command command : tanksCommands) {
             command.execute();

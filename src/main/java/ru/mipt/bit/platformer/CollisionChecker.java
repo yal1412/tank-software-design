@@ -2,6 +2,7 @@ package ru.mipt.bit.platformer;
 
 import com.badlogic.gdx.math.GridPoint2;
 import ru.mipt.bit.platformer.objects.Bullet;
+import ru.mipt.bit.platformer.objects.GameObject;
 import ru.mipt.bit.platformer.objects.Tank;
 import ru.mipt.bit.platformer.objects.Tree;
 
@@ -9,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class CollisionChecker {
+public class CollisionChecker implements Observer{
 
     private final List<Tank> tanks;
     private final List<Tree> trees;
@@ -79,4 +80,69 @@ public class CollisionChecker {
     }
 
 
+    public boolean noCollisionsForBullet(GridPoint2 newCoordinates, Bullet bullet) {
+        if (!noCollisionWithWall(newCoordinates)) {
+            bullet.setNotExistent();
+            return false;
+        }
+
+        return  noCollisionBulletWithBullet(newCoordinates, bullet) &&
+                noCollisionBulletWithTank(newCoordinates, bullet) &&
+                noCollisionBulletWithTree(newCoordinates, bullet);
+    }
+
+    private boolean noCollisionBulletWithBullet(GridPoint2 newCoordinates, Bullet bulletToMove) {
+        for (Bullet bullet : bullets) {
+            if (bullet.equals(bulletToMove)) {
+                continue;
+            }
+            if (!bulletToMove.isMovementPossible(bullet.getCoordinates(), newCoordinates) ||
+                    !bulletToMove.isMovementPossible(bullet.getDestinationCoordinates(), newCoordinates)) {
+                bullet.setNotExistent();
+                bulletToMove.setNotExistent();
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean noCollisionBulletWithTank(GridPoint2 newCoordinates, Bullet bullet) {
+        for (Tank tank : tanks) {
+            if (!tank.equals(bullet.getTank()) && (!bullet.isMovementPossible(tank.getCoordinates(), newCoordinates) ||
+                    !bullet.isMovementPossible(tank.getDestinationCoordinates(), newCoordinates)) ) {
+
+                bullet.setNotExistent();
+
+  //              tank.takeDamage(bullet);
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean noCollisionBulletWithTree(GridPoint2 newCoordinates, Bullet bullet) {
+
+        for (Tree tree : trees) {
+            if (!bullet.isMovementPossible(tree.getCoordinates(), newCoordinates)) {
+                bullet.setNotExistent();
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public void update(Event event, GameObject gameObject, int id) {
+        switch(event) {
+            case RemoveTank:
+                tanks.remove((Tank) gameObject);
+                break;
+            case RemoveBullet:
+                bullets.remove((Bullet) gameObject);
+                break;
+            case AddBullet:
+                bullets.add((Bullet) gameObject);
+                break;
+        }
+    }
 }

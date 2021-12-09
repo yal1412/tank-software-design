@@ -1,12 +1,10 @@
 package ru.mipt.bit.platformer.objects;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.GridPoint2;
 import ru.mipt.bit.platformer.CollisionChecker;
-import ru.mipt.bit.platformer.GameObject;
-import ru.mipt.bit.platformer.control.ControlByKey;
 
+import java.util.Date;
 import java.util.List;
 
 import static com.badlogic.gdx.math.MathUtils.isEqual;
@@ -24,6 +22,10 @@ public class Tank implements GameObject {
 
     private Movement nextMove;
 
+    private boolean alive;
+
+    private long lastTimeShooting = new Date().getTime();
+
     private final CollisionChecker collisionChecker;
 
     public Tank(GridPoint2 destinationCoordinates, CollisionChecker collisionChecker) {
@@ -32,7 +34,16 @@ public class Tank implements GameObject {
         rotation = 0f;
         movementProgress = 1f;
         nextMove = new Movement();
+        alive = true;
         this.collisionChecker = collisionChecker;
+    }
+
+    public long getLastTimeShooting() {
+        return lastTimeShooting;
+    }
+
+    public void setLastTimeShooting(long time) {
+        lastTimeShooting = time;
     }
 
     public boolean hasFinishedMovement() {
@@ -80,10 +91,9 @@ public class Tank implements GameObject {
                 possibleCoordinates.y >= 0 && possibleCoordinates.y < height;
     }
 
-    public void moveCommand(List<Tree> trees, int width, int height) {
+    public void moveCommand() {
         if (!nextMove.isNull() && hasFinishedMovement()) {
             makeRotation();
-            // if there is no tree ahead
             if (noCollisions()){
                 makeMovement();
                 finishMovement();
@@ -149,6 +159,19 @@ public class Tank implements GameObject {
     public boolean noCollisions() {
         GridPoint2 newCoordinates = tryMovement();
         return collisionChecker.noCollisionsForTank(newCoordinates, this);
+    }
+
+    public CollisionChecker getCollisionChecker() {
+        return collisionChecker;
+    }
+
+    public boolean canShoot() {
+        long timeShooting = new Date().getTime();
+        return timeShooting - lastTimeShooting > 1000;
+    }
+
+    public boolean isAlive() {
+        return this.alive;
     }
 }
 

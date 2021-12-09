@@ -1,22 +1,27 @@
 package ru.mipt.bit.platformer;
 
+import ru.mipt.bit.platformer.control.ControlByAIAdaptor;
 import ru.mipt.bit.platformer.control.ControlByKey;
 import ru.mipt.bit.platformer.control.ControlByRandom;
 import ru.mipt.bit.platformer.control.Manager;
 import ru.mipt.bit.platformer.control.commands.*;
+import ru.mipt.bit.platformer.objects.GameObject;
 import ru.mipt.bit.platformer.objects.LogicLevel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class GameDriver {
+public class GameDriver{
 
     private final LogicLevel logicLevel;
     private final List<Manager> managers;
 
+    ControlByAIAdaptor aiController;
+
     public GameDriver(LogicLevel logicLevel) {
         this.logicLevel = logicLevel;
         managers = new ArrayList<>();
+        aiController = new ControlByAIAdaptor(logicLevel);
     }
 
     public void createManagerForPlayer() {
@@ -49,7 +54,8 @@ public class GameDriver {
         }
     }
 
-    public void moveObjects() {
+    public void updateObjects() {
+        logicLevel.checkObjects();
         logicLevel.moveTanks();
         logicLevel.moveBullets();
     }

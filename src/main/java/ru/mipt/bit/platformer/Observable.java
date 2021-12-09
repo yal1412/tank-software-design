@@ -1,7 +1,9 @@
 package ru.mipt.bit.platformer;
 
+import ru.mipt.bit.platformer.objects.GameObject;
+
 public interface Observable {
-    void addObserver(Object o);
-    void removeObserver(Object o);
+    void addObserver(Observer o);
+    void removeObserver(Observer o);
     void notifyObservers(Event event, GameObject object);
 }

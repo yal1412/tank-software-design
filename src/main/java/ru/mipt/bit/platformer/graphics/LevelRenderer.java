@@ -5,14 +5,16 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import ru.mipt.bit.platformer.Event;
-import ru.mipt.bit.platformer.GameObject;
+import ru.mipt.bit.platformer.Observer;
+import ru.mipt.bit.platformer.objects.Bullet;
+import ru.mipt.bit.platformer.objects.GameObject;
 import ru.mipt.bit.platformer.objects.Tank;
 import ru.mipt.bit.platformer.objects.Tree;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class LevelRenderer {
+public class LevelRenderer implements Observer {
 
     private final Batch batch;
 
@@ -20,6 +22,7 @@ public class LevelRenderer {
 
     private final List<TankTexture> tankTextures;
     private final List<TreeTexture> treeTextures;
+    private final List<BulletTexture> bulletTextures;
 
     public LevelRenderer(List<Tank> tanks, List<Tree> trees){
         batch = new SpriteBatch();
@@ -35,16 +38,21 @@ public class LevelRenderer {
             treeTextures.add(new TreeTexture(new Texture("images/greenTree.png")));
         }
 
+        bulletTextures = new ArrayList<>();
+
         levelLayer.placeObstacles(trees, treeTextures);
     }
 
-    public void render(List<Tank> tanks){
+    public void render(List<Tank> tanks, List<Bullet> bullets){
         for (int i = 0; i < tanks.size(); i++) {
-            levelLayer.updatePlayerPlacement(tanks.get(i), tankTextures.get(i));
+            levelLayer.updateTanksPlacement(tanks.get(i), tankTextures.get(i));
+        }
+        for (int i = 0; i < bullets.size(); i++) {
+            levelLayer.updateBulletsPlacement(bullets.get(i), bulletTextures.get(i));
         }
         levelLayer.render();
 
-        Drawer.draw(batch, tanks, tankTextures, treeTextures);
+        Drawer.draw(batch, tanks, tankTextures, treeTextures, bullets, bulletTextures);
 
     }
 
@@ -55,17 +63,31 @@ public class LevelRenderer {
         for (TankTexture tankTexture : tankTextures) {
             tankTexture.getBlueTank().dispose();
         }
+        for (BulletTexture bulletTexture : bulletTextures) {
+            bulletTexture.getBulletTexture().dispose();
+        }
         levelLayer.dispose();
         batch.dispose();
     }
 
-    public void update(Event event, int id) {
-        switch (event){
+    @Override
+    public void update(Event event, GameObject gameObject, int id) {
+        switch(event) {
+            case AddBullet:
+                bulletTextures.add(new BulletTexture(new Texture("images/bullet_square.png")));
+                break;
+            case RemoveBullet:
+                bulletTextures.remove(id);
+                break;
             case RemoveTank:
                 tankTextures.remove(id);
                 break;
-            default:
-                break;
+//            case ChangeHealth:
+//                tankPlayerGraphics.changeHealthBar();
+//                for (var entry : tanksToGraphics.entrySet()) {
+//                    entry.getValue().changeHealthBar();
+//                }
+//                break;
         }
     }
 }

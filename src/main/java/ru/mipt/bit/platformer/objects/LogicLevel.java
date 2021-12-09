@@ -3,13 +3,10 @@ package ru.mipt.bit.platformer.objects;
 import com.badlogic.gdx.math.GridPoint2;
 import ru.mipt.bit.platformer.CollisionChecker;
 import ru.mipt.bit.platformer.Event;
-import ru.mipt.bit.platformer.GameObject;
 import ru.mipt.bit.platformer.Observable;
+import ru.mipt.bit.platformer.Observer;
 import ru.mipt.bit.platformer.control.ControlByAIAdaptor;
-import ru.mipt.bit.platformer.control.ControlByKey;
-import ru.mipt.bit.platformer.control.ControlByRandom;
-import ru.mipt.bit.platformer.control.Manager;
-import ru.mipt.bit.platformer.control.commands.*;
+import ru.mipt.bit.platformer.graphics.BulletTexture;
 import ru.mipt.bit.platformer.graphics.LevelRenderer;
 
 import java.util.ArrayList;
@@ -38,7 +35,6 @@ public class LogicLevel implements Observable {
         height = 0;
         width = 0;
         collisionChecker = new CollisionChecker();
-//        managers = new ArrayList<>();
     }
 
     public void setHeight(int height) {
@@ -69,29 +65,6 @@ public class LogicLevel implements Observable {
 //        createControllers();
     }
 
-//    private void createControllers() {
-//        int i = 0;
-//        if (managers.isEmpty()) {
-//            managers.add(new ControlByKey(new MoveUpCommand(tanks.get(0)),
-//                    new MoveDownCommand(tanks.get(0)),
-//                    new MoveLeftCommand(tanks.get(0)),
-//                    new MoveRightCommand(tanks.get(0)),
-//                    new ShootCommand(tanks.get(0))));
-//            i = 1;
-//        }
-//        else {
-//            i = managers.size();
-//        }
-//
-//        for (; i < tanks.size(); i++) {
-//            managers.add(new ControlByRandom(new MoveUpCommand(tanks.get(i)),
-//                    new MoveDownCommand(tanks.get(i)),
-//                    new MoveLeftCommand(tanks.get(i)),
-//                    new MoveRightCommand(tanks.get(i)),
-//                    new ShootCommand(tanks.get(i))));
-//        }
-//    }
-
     public void createTrees(List<GridPoint2> treeCoordinates) {
         for (GridPoint2 coordinate : treeCoordinates) {
             Tree tree = new Tree(coordinate);
@@ -118,25 +91,75 @@ public class LogicLevel implements Observable {
 
     public void moveTanks() {
         for (Tank tank : tanks) {
-            tank.moveCommand(trees, width, height);
+            tank.moveCommand();
         }
     }
 
     @Override
-    public void addObserver(Object o) {
+    public void addObserver(Observer o) {
 
     }
 
     @Override
-    public void removeObserver(Object o) {
+    public void removeObserver(Observer o) {
 
     }
 
     @Override
     public void notifyObservers(Event event, GameObject object) {
+        int id = 0;
+        if (object instanceof Tank) {
+            id = tanks.indexOf((Tank) object);
+        }
+        if (object instanceof Tree) {
+            id = trees.indexOf((Tree) object);
+        }
+        if (object instanceof Bullet) {
+            id = bullets.indexOf((Bullet) object);
+        }
 
+        levelRenderer.update(event, object, id);
+        collisionChecker.update(event, object, id);
     }
 
     public void moveBullets() {
+        for (Bullet bullet : bullets) {
+            bullet.move();
+        }
+    }
+
+    public void addBullet(Bullet bullet) {
+        bullets.add(bullet);
+        notifyObservers(Event.AddBullet, bullet);
+    }
+
+    public List<Bullet> getBullets() {
+        return bullets;
+    }
+
+    public void checkObjects() {
+        checkTanks();
+        checkBullets();
+    }
+
+    public void checkTanks() {
+        ArrayList <Tank> tanksCopy = new ArrayList<>(tanks);
+        for (Tank tank : tanksCopy) {
+            if (!tank.isAlive()) {
+//                System.out.println("removing tank");
+                notifyObservers(Event.RemoveTank, tank);
+                tanks.remove(tank);
+            }
+        }
+    }
+
+    public void checkBullets() {
+        ArrayList<Bullet> bulletsCopy = new ArrayList<>(bullets);
+        for (Bullet bullet : bulletsCopy) {
+            if (!bullet.isExistent()) {
+                notifyObservers(Event.RemoveBullet, bullet);
+                bullets.remove(bullet);
+            }
+        }
     }
 }

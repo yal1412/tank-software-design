@@ -16,19 +16,25 @@ public class ControlByRandom implements Manager{
     @Override
     public void executeCommand(){
         int c = (int) (Math.random() * 4);
-        switch (c) {
-            case 0:
-                control.moveUp();
-                break;
-            case 1:
-                control.moveDown();
-                break;
-            case 2:
-                control.moveLeft();
-                break;
-            case 3:
-                control.moveRight();
-                break;
+        int shooter = (int) (Math.random() * 100);
+        if (shooter < 10) {
+            control.shoot();
+        }
+        else {
+            switch (c) {
+                case 0:
+                    control.moveUp();
+                    break;
+                case 1:
+                    control.moveDown();
+                    break;
+                case 2:
+                    control.moveLeft();
+                    break;
+                case 3:
+                    control.moveRight();
+                    break;
+            }
         }
     }
 }

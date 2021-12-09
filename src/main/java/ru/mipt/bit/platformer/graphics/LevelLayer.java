@@ -5,8 +5,7 @@ import com.badlogic.gdx.maps.MapRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Interpolation;
-import ru.mipt.bit.platformer.graphics.TankTexture;
-import ru.mipt.bit.platformer.graphics.TreeTexture;
+import ru.mipt.bit.platformer.objects.Bullet;
 import ru.mipt.bit.platformer.objects.Tank;
 import ru.mipt.bit.platformer.objects.Tree;
 import ru.mipt.bit.platformer.util.TileMovement;
@@ -18,21 +17,30 @@ import static ru.mipt.bit.platformer.util.GdxGameUtils.*;
 public class LevelLayer {
     public TiledMap level;
     public MapRenderer levelRenderer;
-    public TileMovement tileMovement;
+    public TileMovement tileMovementTank;
+    public TileMovement tileMovementBullet;
     public TiledMapTileLayer groundLayer;
 
     public LevelLayer(TiledMap load, Batch batch){
         level = load;
         levelRenderer = createSingleLayerMapRenderer(level, batch);
         groundLayer = getSingleLayer(level);
-        tileMovement = new TileMovement(groundLayer, Interpolation.smooth);
+        tileMovementTank = new TileMovement(groundLayer, Interpolation.smooth);
+        tileMovementBullet = new TileMovement(groundLayer, Interpolation.linear);
     }
 
-    public void updatePlayerPlacement(Tank tank, TankTexture tankTexture) {
-        tileMovement.moveRectangleBetweenTileCenters(tankTexture.getRectangle(),
+    public void updateTanksPlacement(Tank tank, TankTexture tankTexture) {
+        tileMovementTank.moveRectangleBetweenTileCenters(tankTexture.getRectangle(),
                                                      tank.getCoordinates(),
                                                      tank.getDestinationCoordinates(),
                                                      tank.getMovementProgress());
+    }
+
+    public void updateBulletsPlacement(Bullet bullet, BulletTexture bulletTexture) {
+        tileMovementBullet.moveRectangleBetweenTileCenters(bulletTexture.getRectangle(),
+                bullet.getCoordinates(),
+                bullet.getDestinationCoordinates(),
+                bullet.getMovementProgress());
     }
 
     public void placeObstacles(List<Tree> trees, List<TreeTexture> treeTextures) {
