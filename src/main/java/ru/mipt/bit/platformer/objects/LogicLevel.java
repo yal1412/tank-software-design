@@ -25,9 +25,6 @@ public class LogicLevel implements Observable {
 
     private final CollisionChecker collisionChecker;
 
-//    private final List<Manager> managers;
-    ControlByAIAdaptor aiController;
-
     public LogicLevel(){
         tanks = new ArrayList<>();
         trees = new ArrayList<>();
@@ -51,8 +48,6 @@ public class LogicLevel implements Observable {
         createTanks(tankCoordinates);
         createTrees(treeCoordinates);
 
-//        aiController = new ControlByAIAdaptor();
-
         levelRenderer = new LevelRenderer(tanks, trees);
     }
 
@@ -62,7 +57,6 @@ public class LogicLevel implements Observable {
             tanks.add(tank);
             collisionChecker.addTank(tank);
         }
-//        createControllers();
     }
 
     public void createTrees(List<GridPoint2> treeCoordinates) {
@@ -146,7 +140,6 @@ public class LogicLevel implements Observable {
         ArrayList <Tank> tanksCopy = new ArrayList<>(tanks);
         for (Tank tank : tanksCopy) {
             if (!tank.isAlive()) {
-//                System.out.println("removing tank");
                 notifyObservers(Event.RemoveTank, tank);
                 tanks.remove(tank);
             }

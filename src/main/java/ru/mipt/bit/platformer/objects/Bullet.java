@@ -121,4 +121,8 @@ public class Bullet implements GameObject{
     public boolean isExistent() {
         return existent;
     }
+
+    public int getDamage() {
+        return damage;
+    }
 }

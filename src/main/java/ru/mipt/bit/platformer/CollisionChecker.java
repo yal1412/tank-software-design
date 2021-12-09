@@ -113,7 +113,7 @@ public class CollisionChecker implements Observer{
 
                 bullet.setNotExistent();
 
-  //              tank.takeDamage(bullet);
+                tank.takeDamage(bullet);
                 return false;
             }
         }

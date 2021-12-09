@@ -2,7 +2,7 @@ package ru.mipt.bit.platformer.objects;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.GridPoint2;
-import ru.mipt.bit.platformer.CollisionChecker;
+import ru.mipt.bit.platformer.*;
 
 import java.util.Date;
 import java.util.List;
@@ -12,7 +12,7 @@ import static ru.mipt.bit.platformer.util.GdxGameUtils.continueProgress;
 
 public class Tank implements GameObject {
 
-    private static final float MOVEMENT_SPEED = 0.4f;
+    private float MOVEMENT_SPEED = 0.4f;
 
     private final GridPoint2 coordinates;
     private final GridPoint2 destinationCoordinates;
@@ -23,6 +23,9 @@ public class Tank implements GameObject {
     private Movement nextMove;
 
     private boolean alive;
+    private int life = 99;
+
+    private State state;
 
     private long lastTimeShooting = new Date().getTime();
 
@@ -36,6 +39,7 @@ public class Tank implements GameObject {
         nextMove = new Movement();
         alive = true;
         this.collisionChecker = collisionChecker;
+        state = new NoDamageState(this);
     }
 
     public long getLastTimeShooting() {
@@ -172,6 +176,25 @@ public class Tank implements GameObject {
 
     public boolean isAlive() {
         return this.alive;
+    }
+
+    public void takeDamage(Bullet bullet) {
+        life -= bullet.getDamage();
+        if (life == 66) {
+            state = new MediumDamageState(this);
+        } else if (life == 33) {
+            state = new SevereDamageState(this);
+        }
+        if (life <= 0)
+            alive = false;
+    }
+
+    public float getMovementSpeed() {
+        return MOVEMENT_SPEED;
+    }
+
+    public void setMovementSpeed(float MOVEMENT_SPEED) {
+        this.MOVEMENT_SPEED = MOVEMENT_SPEED;
     }
 }
 
