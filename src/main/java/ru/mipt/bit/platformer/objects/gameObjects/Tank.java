@@ -10,7 +10,9 @@ import java.util.Date;
 
 import static com.badlogic.gdx.math.MathUtils.isEqual;
 import static ru.mipt.bit.platformer.util.GdxGameUtils.continueProgress;
-
+/**
+ * Entity
+ */
 public class Tank implements GameObject {
 
     private float MOVEMENT_SPEED = 0.4f;

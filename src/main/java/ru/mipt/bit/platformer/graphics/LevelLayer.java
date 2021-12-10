@@ -16,7 +16,9 @@ import ru.mipt.bit.platformer.util.TileMovement;
 import java.util.List;
 
 import static ru.mipt.bit.platformer.util.GdxGameUtils.*;
-
+/**
+ * Adapter
+ */
 public class LevelLayer {
     public TiledMap level;
     public MapRenderer levelRenderer;

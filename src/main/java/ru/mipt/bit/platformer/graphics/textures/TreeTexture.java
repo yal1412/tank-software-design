@@ -5,7 +5,9 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 
 import static ru.mipt.bit.platformer.util.GdxGameUtils.createBoundingRectangle;
-
+/**
+ * Entity
+ */
 public class TreeTexture {
     private final Texture texture;
     private final TextureRegion graphics;

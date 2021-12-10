@@ -5,7 +5,9 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 
 import static ru.mipt.bit.platformer.util.GdxGameUtils.createBoundingRectangle;
-
+/**
+ * Entity
+ */
 public class HealthTexture {
     private final TextureRegion healthGraphics;
     private final Rectangle healthRectangle;

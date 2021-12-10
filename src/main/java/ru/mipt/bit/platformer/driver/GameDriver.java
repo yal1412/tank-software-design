@@ -11,7 +11,9 @@ import ru.mipt.bit.platformer.objects.gameObjects.GameObject;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * Adapter
+ */
 public class GameDriver implements Observer {
 
     private final LogicLevel logicLevel;

@@ -13,7 +13,9 @@ import java.util.Date;
 
 import static com.badlogic.gdx.Input.Keys.*;
 import static com.badlogic.gdx.Input.Keys.D;
-
+/**
+ * Use case
+ */
 public class ControlByKey implements Manager, Observable {
     private final Control control;
     private final GameDriver  gameDriver;

@@ -4,7 +4,9 @@ import com.badlogic.gdx.math.GridPoint2;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * Use case
+ */
 public class FileParser {
 
     public static List<GridPoint2> calculateTreeCoordinates(List<String> lines){

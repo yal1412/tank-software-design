@@ -1,7 +1,9 @@
 package ru.mipt.bit.platformer.control;
 
 import ru.mipt.bit.platformer.control.commands.Command;
-
+/**
+ * Use case
+ */
 public class Control {
     private final Command moveUpCommand;
     private final Command moveDownCommand;

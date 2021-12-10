@@ -1,7 +1,9 @@
 package ru.mipt.bit.platformer.objects;
 
 import com.badlogic.gdx.math.GridPoint2;
-
+/**
+ * Entity
+ */
 public class Movement {
     public GridPoint2 directionVector;
     public float rotation;

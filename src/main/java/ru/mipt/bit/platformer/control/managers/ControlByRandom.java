@@ -2,7 +2,9 @@ package ru.mipt.bit.platformer.control.managers;
 
 import ru.mipt.bit.platformer.control.Control;
 import ru.mipt.bit.platformer.control.commands.Command;
-
+/**
+ * Use case
+ */
 public class ControlByRandom implements Manager {
     private final Control control;
 

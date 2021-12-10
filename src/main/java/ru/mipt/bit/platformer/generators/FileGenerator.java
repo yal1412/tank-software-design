@@ -9,7 +9,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * Use case
+ */
 public class FileGenerator implements LevelGenerator {
 
     private final LogicLevel logicLevel;

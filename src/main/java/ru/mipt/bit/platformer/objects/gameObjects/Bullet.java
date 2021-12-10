@@ -8,7 +8,9 @@ import ru.mipt.bit.platformer.objects.Movement;
 
 import static com.badlogic.gdx.math.MathUtils.isEqual;
 import static ru.mipt.bit.platformer.util.GdxGameUtils.continueProgress;
-
+/**
+ * Entity
+ */
 public class Bullet implements GameObject {
     public final int damage = 33;
     private final GridPoint2 coordinates;

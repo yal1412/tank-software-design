@@ -6,7 +6,9 @@ import com.badlogic.gdx.math.Rectangle;
 import ru.mipt.bit.platformer.graphics.textures.HealthTexture;
 
 import static ru.mipt.bit.platformer.util.GdxGameUtils.createBoundingRectangle;
-
+/**
+ * Entity
+ */
 public class TankTexture {
     private final Texture blueTank;
     private final TextureRegion graphics;

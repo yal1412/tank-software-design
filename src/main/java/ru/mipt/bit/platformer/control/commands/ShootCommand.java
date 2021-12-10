@@ -7,7 +7,9 @@ import ru.mipt.bit.platformer.driver.LogicLevel;
 import ru.mipt.bit.platformer.objects.gameObjects.Tank;
 
 import java.util.Date;
-
+/**
+ * Use case
+ */
 public class ShootCommand implements Command{
 
     private final Tank tank;

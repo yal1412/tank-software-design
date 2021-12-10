@@ -8,7 +8,9 @@ import ru.mipt.bit.platformer.generators.LevelGenerator;
 import ru.mipt.bit.platformer.generators.RandomGenerator;
 import ru.mipt.bit.platformer.graphics.Drawer;
 import ru.mipt.bit.platformer.driver.LogicLevel;
-
+/**
+ * Adapter
+ */
 public class GameDesktopLauncher implements ApplicationListener {
 
     private LogicLevel logicLevel;
@@ -23,7 +25,7 @@ public class GameDesktopLauncher implements ApplicationListener {
         gameDriver = new GameDriver(logicLevel);
         gameDriver.createManagerForPlayer();
         gameDriver.createManagerForTanks();
-        
+
     }
 
     @Override

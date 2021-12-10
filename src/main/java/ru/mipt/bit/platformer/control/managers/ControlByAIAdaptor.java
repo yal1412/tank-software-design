@@ -12,16 +12,15 @@ import ru.mipt.bit.platformer.objects.gameObjects.Tank;
 
 import java.util.ArrayList;
 import java.util.List;
-
-
+/**
+ * Use case
+ */
 public class ControlByAIAdaptor implements Manager {
-    private LogicLevel logicLevel;
-    private GameState gameState;
-    private AI ai;
+    private final GameState gameState;
+    private final AI ai;
     private final List<Command> tanksCommands;
 
     public ControlByAIAdaptor(LogicLevel logicLevel){
-        this.logicLevel = logicLevel;
 
         ai = new NotRecommendingAI();
 
@@ -36,7 +35,6 @@ public class ControlByAIAdaptor implements Manager {
 
     @Override
     public void executeCommand() {
-//        System.out.println("Execute Command");
         recommendCommands();
         for (Command command : tanksCommands) {
             command.execute();
@@ -44,7 +42,6 @@ public class ControlByAIAdaptor implements Manager {
     }
 
     public void recommendCommands() {
-//        tanksCommands.clear();
         List<Recommendation> recommendations = ai.recommend(gameState);
         for (Recommendation rec : recommendations) {
             tanksCommands.add(commandFromRecommendation(rec));

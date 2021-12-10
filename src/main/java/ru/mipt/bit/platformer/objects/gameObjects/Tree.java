@@ -2,7 +2,9 @@ package ru.mipt.bit.platformer.objects.gameObjects;
 
 import com.badlogic.gdx.math.GridPoint2;
 import ru.mipt.bit.platformer.objects.gameObjects.GameObject;
-
+/**
+ * Entity
+ */
 public class Tree implements GameObject {
 
     private final GridPoint2 coordinates;

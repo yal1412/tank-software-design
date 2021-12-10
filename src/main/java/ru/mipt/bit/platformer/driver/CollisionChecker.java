@@ -10,7 +10,9 @@ import ru.mipt.bit.platformer.objects.gameObjects.Tree;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * Adapter
+ */
 public class CollisionChecker implements Observer {
 
     private final List<Tank> tanks;

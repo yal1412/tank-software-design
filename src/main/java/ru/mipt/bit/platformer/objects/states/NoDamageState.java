@@ -3,7 +3,9 @@ package ru.mipt.bit.platformer.objects.states;
 import ru.mipt.bit.platformer.objects.gameObjects.Tank;
 
 import java.util.Date;
-
+/**
+ * Entity
+ */
 public class NoDamageState implements State {
     private final Tank tank;
 

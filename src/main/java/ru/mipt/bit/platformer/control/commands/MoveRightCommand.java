@@ -1,8 +1,9 @@
 package ru.mipt.bit.platformer.control.commands;
 
-import ru.mipt.bit.platformer.driver.LogicLevel;
 import ru.mipt.bit.platformer.objects.gameObjects.Tank;
-
+/**
+ * Use case
+ */
 public class MoveRightCommand implements Command {
 
     private final Tank tank;

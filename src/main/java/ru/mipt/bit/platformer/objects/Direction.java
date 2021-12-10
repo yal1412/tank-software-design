@@ -1,7 +1,9 @@
 package ru.mipt.bit.platformer.objects;
 
 import com.badlogic.gdx.math.GridPoint2;
-
+/**
+ * Entity
+ */
 public enum Direction {
     UP(0, 1, 90f),
     DOWN(0, -1, -90f),
