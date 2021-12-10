@@ -3,14 +3,14 @@ package ru.mipt.bit.platformer;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
+import ru.mipt.bit.platformer.driver.GameDriver;
 import ru.mipt.bit.platformer.generators.LevelGenerator;
 import ru.mipt.bit.platformer.generators.RandomGenerator;
 import ru.mipt.bit.platformer.graphics.Drawer;
-import ru.mipt.bit.platformer.objects.LogicLevel;
+import ru.mipt.bit.platformer.driver.LogicLevel;
 
 public class GameDesktopLauncher implements ApplicationListener {
 
-//    private LevelRenderer levelRenderer;
     private LogicLevel logicLevel;
     private GameDriver gameDriver;
 
@@ -23,8 +23,7 @@ public class GameDesktopLauncher implements ApplicationListener {
         gameDriver = new GameDriver(logicLevel);
         gameDriver.createManagerForPlayer();
         gameDriver.createManagerForTanks();
-
-//        levelRenderer = new LevelRenderer(logicLevel.getTrees());
+        
     }
 
     @Override

@@ -1,14 +1,13 @@
 package ru.mipt.bit.platformer.control.aicontrol;
 
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.GridPoint2;
 import org.awesome.ai.state.GameState;
 import org.awesome.ai.state.immovable.Obstacle;
 import org.awesome.ai.state.movable.Bot;
 import org.awesome.ai.state.movable.Orientation;
 import org.awesome.ai.state.movable.Player;
-import ru.mipt.bit.platformer.objects.Tank;
-import ru.mipt.bit.platformer.objects.Tree;
+import ru.mipt.bit.platformer.objects.gameObjects.Tank;
+import ru.mipt.bit.platformer.objects.gameObjects.Tree;
 
 import java.util.ArrayList;
 import java.util.List;

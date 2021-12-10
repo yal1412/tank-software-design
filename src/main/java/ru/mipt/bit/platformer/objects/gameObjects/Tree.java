@@ -1,6 +1,7 @@
-package ru.mipt.bit.platformer.objects;
+package ru.mipt.bit.platformer.objects.gameObjects;
 
 import com.badlogic.gdx.math.GridPoint2;
+import ru.mipt.bit.platformer.objects.gameObjects.GameObject;
 
 public class Tree implements GameObject {
 

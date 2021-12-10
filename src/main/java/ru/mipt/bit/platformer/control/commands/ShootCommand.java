@@ -1,10 +1,10 @@
 package ru.mipt.bit.platformer.control.commands;
 
 import com.badlogic.gdx.math.GridPoint2;
-import ru.mipt.bit.platformer.objects.Bullet;
+import ru.mipt.bit.platformer.objects.gameObjects.Bullet;
 import ru.mipt.bit.platformer.objects.Direction;
-import ru.mipt.bit.platformer.objects.LogicLevel;
-import ru.mipt.bit.platformer.objects.Tank;
+import ru.mipt.bit.platformer.driver.LogicLevel;
+import ru.mipt.bit.platformer.objects.gameObjects.Tank;
 
 import java.util.Date;
 

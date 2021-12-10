@@ -16,20 +16,6 @@ public class Movement {
         this.rotation = rotation;
     }
 
-    public float getRotation() {
-        return rotation;
-    }
-
-    public GridPoint2 getDirectionVector() {
-        return directionVector;
-    }
-
-    public void setToZero(){
-        directionVector.x = 0;
-        directionVector.y = 0;
-        rotation = 0f;
-    }
-
     public boolean isNull(){
         return (directionVector.x == 0 && directionVector.y == 0);
     }

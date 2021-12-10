@@ -1,6 +1,6 @@
-package ru.mipt.bit.platformer;
+package ru.mipt.bit.platformer.driver.observation;
 
-import ru.mipt.bit.platformer.objects.GameObject;
+import ru.mipt.bit.platformer.objects.gameObjects.GameObject;
 
 public interface Observable {
     void addObserver(Observer o);

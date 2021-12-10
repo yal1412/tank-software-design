@@ -2,10 +2,11 @@ package ru.mipt.bit.platformer.graphics;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import ru.mipt.bit.platformer.graphics.TankTexture;
-import ru.mipt.bit.platformer.graphics.TreeTexture;
-import ru.mipt.bit.platformer.objects.Bullet;
-import ru.mipt.bit.platformer.objects.Tank;
+import ru.mipt.bit.platformer.graphics.textures.BulletTexture;
+import ru.mipt.bit.platformer.graphics.textures.TankTexture;
+import ru.mipt.bit.platformer.graphics.textures.TreeTexture;
+import ru.mipt.bit.platformer.objects.gameObjects.Bullet;
+import ru.mipt.bit.platformer.objects.gameObjects.Tank;
 
 import java.util.List;
 
@@ -21,14 +22,22 @@ public class Drawer {
     public static void draw(Batch batch, List<Tank> tanks, List<TankTexture> tankTextures, List<TreeTexture> treeTextures,
                             List<Bullet> bullets, List<BulletTexture> bulletTextures) {
         batch.begin();
-        // render player
+
         for (int i = 0; i < tanks.size(); i++) {
             drawTextureRegionUnscaled(batch, tankTextures.get(i).getGraphics(),
                                       tankTextures.get(i).getRectangle(),
                                       tanks.get(i).getRotation());
+            if (tankTextures.get(i).isHealthOn()) {
+                tankTextures.get(i).getHealthGraphics().setRegionWidth(tanks.get(i).getLife());
+                drawTextureRegionUnscaled(batch,
+                        tankTextures.get(i).getHealthGraphics(),
+                        tankTextures.get(i).getHealthRectangle().setCenter(
+                                tankTextures.get(i).getHealthRectangle().getX() + 50f,
+                                tankTextures.get(i).getHealthRectangle().getY() - 50f),
+                        180f);
+            }
         }
 
-        // render tree obstacle
         for (TreeTexture treeTexture : treeTextures) {
             drawTextureRegionUnscaled(batch, treeTexture.getGraphics(), treeTexture.getRectangle(), 0f);
         }

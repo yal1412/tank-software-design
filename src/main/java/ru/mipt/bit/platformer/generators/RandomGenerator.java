@@ -1,7 +1,7 @@
 package ru.mipt.bit.platformer.generators;
 
 import com.badlogic.gdx.math.GridPoint2;
-import ru.mipt.bit.platformer.objects.LogicLevel;
+import ru.mipt.bit.platformer.driver.LogicLevel;
 
 import java.io.BufferedReader;
 import java.io.File;

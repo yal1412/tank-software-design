@@ -1,16 +1,17 @@
-package ru.mipt.bit.platformer;
+package ru.mipt.bit.platformer.driver;
 
 import com.badlogic.gdx.math.GridPoint2;
-import ru.mipt.bit.platformer.objects.Bullet;
-import ru.mipt.bit.platformer.objects.GameObject;
-import ru.mipt.bit.platformer.objects.Tank;
-import ru.mipt.bit.platformer.objects.Tree;
+import ru.mipt.bit.platformer.driver.observation.Event;
+import ru.mipt.bit.platformer.driver.observation.Observer;
+import ru.mipt.bit.platformer.objects.gameObjects.Bullet;
+import ru.mipt.bit.platformer.objects.gameObjects.GameObject;
+import ru.mipt.bit.platformer.objects.gameObjects.Tank;
+import ru.mipt.bit.platformer.objects.gameObjects.Tree;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
-public class CollisionChecker implements Observer{
+public class CollisionChecker implements Observer {
 
     private final List<Tank> tanks;
     private final List<Tree> trees;
@@ -33,10 +34,6 @@ public class CollisionChecker implements Observer{
 
     public void addTree(Tree tree) {
         trees.add(tree);
-    }
-
-    public void addBullet(Bullet bullet) {
-        bullets.add(bullet);
     }
 
     public void setHeight(int height) {

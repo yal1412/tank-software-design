@@ -1,18 +1,14 @@
 package ru.mipt.bit.platformer.control.commands;
 
-import ru.mipt.bit.platformer.objects.LogicLevel;
-import ru.mipt.bit.platformer.objects.Tank;
-
-import java.util.logging.Level;
+import ru.mipt.bit.platformer.driver.LogicLevel;
+import ru.mipt.bit.platformer.objects.gameObjects.Tank;
 
 public class MoveDownCommand implements Command {
 
     private final Tank tank;
-    private final LogicLevel logicLevel;
 
-    public MoveDownCommand(Tank tank, LogicLevel logicLevel){
+    public MoveDownCommand(Tank tank){
         this.tank = tank;
-        this.logicLevel = logicLevel;
     }
 
     @Override

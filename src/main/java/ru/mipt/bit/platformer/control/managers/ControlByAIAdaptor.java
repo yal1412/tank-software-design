@@ -1,4 +1,4 @@
-package ru.mipt.bit.platformer.control;
+package ru.mipt.bit.platformer.control.managers;
 
 import org.awesome.ai.Action;
 import org.awesome.ai.Recommendation;
@@ -7,15 +7,14 @@ import org.awesome.ai.strategy.NotRecommendingAI;
 import ru.mipt.bit.platformer.control.aicontrol.GameStateCreator;
 import ru.mipt.bit.platformer.control.commands.*;
 import org.awesome.ai.AI;
-import ru.mipt.bit.platformer.objects.LogicLevel;
-import ru.mipt.bit.platformer.objects.Tank;
-import ru.mipt.bit.platformer.objects.Tree;
+import ru.mipt.bit.platformer.driver.LogicLevel;
+import ru.mipt.bit.platformer.objects.gameObjects.Tank;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class ControlByAIAdaptor implements Manager{
+public class ControlByAIAdaptor implements Manager {
     private LogicLevel logicLevel;
     private GameState gameState;
     private AI ai;
@@ -57,12 +56,12 @@ public class ControlByAIAdaptor implements Manager{
         Action action = recommendation.getAction();
         switch(action) {
             case MoveEast:
-                return new MoveRightCommand(actor, logicLevel);
+                return new MoveRightCommand(actor);
             case MoveWest:
-                return new MoveLeftCommand(actor, logicLevel);
+                return new MoveLeftCommand(actor);
             case MoveNorth:
-                return new MoveUpCommand(actor, logicLevel);
+                return new MoveUpCommand(actor);
         }
-        return new MoveDownCommand(actor, logicLevel);
+        return new MoveDownCommand(actor);
     }
 }

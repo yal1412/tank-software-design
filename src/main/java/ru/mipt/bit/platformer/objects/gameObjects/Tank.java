@@ -1,11 +1,12 @@
-package ru.mipt.bit.platformer.objects;
+package ru.mipt.bit.platformer.objects.gameObjects;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.GridPoint2;
-import ru.mipt.bit.platformer.*;
+import ru.mipt.bit.platformer.driver.CollisionChecker;
+import ru.mipt.bit.platformer.objects.*;
+import ru.mipt.bit.platformer.objects.states.*;
 
 import java.util.Date;
-import java.util.List;
 
 import static com.badlogic.gdx.math.MathUtils.isEqual;
 import static ru.mipt.bit.platformer.util.GdxGameUtils.continueProgress;
@@ -16,15 +17,12 @@ public class Tank implements GameObject {
 
     private final GridPoint2 coordinates;
     private final GridPoint2 destinationCoordinates;
-
     private float movementProgress;
     private float rotation;
-
     private Movement nextMove;
 
     private boolean alive;
     private int life = 99;
-
     private State state;
 
     private long lastTimeShooting = new Date().getTime();
@@ -46,8 +44,40 @@ public class Tank implements GameObject {
         return lastTimeShooting;
     }
 
+    public float getMovementSpeed() {
+        return MOVEMENT_SPEED;
+    }
+
+    public int getLife() {
+        return life;
+    }
+
+    public float getRotation() {
+        return rotation;
+    }
+
+    public float getMovementProgress() {
+        return movementProgress;
+    }
+
+    public GridPoint2 getDestinationCoordinates() {
+        return destinationCoordinates;
+    }
+
+    public GridPoint2 getCoordinates() {
+        return coordinates;
+    }
+
+    public CollisionChecker getCollisionChecker() {
+        return collisionChecker;
+    }
+
     public void setLastTimeShooting(long time) {
         lastTimeShooting = time;
+    }
+
+    public void setMovementSpeed(float MOVEMENT_SPEED) {
+        this.MOVEMENT_SPEED = MOVEMENT_SPEED;
     }
 
     public boolean hasFinishedMovement() {
@@ -75,24 +105,8 @@ public class Tank implements GameObject {
         movementProgress = 0f;
     }
 
-    public boolean notObstacleAhead(List<Tree> trees) {
-        GridPoint2 possibleCoordinates = tryMovement();
-        for (Tree tree : trees) {
-            if (tree.getCoordinates().equals(possibleCoordinates)){
-                return false;
-            }
-        }
-        return true;
-    }
-
     public boolean isMovementPossible(GridPoint2 obstacleCoordinates, GridPoint2 newPosition) {
         return !obstacleCoordinates.equals(newPosition);
-    }
-
-    private boolean noWallAhead(int width, int height) {
-        GridPoint2 possibleCoordinates = tryMovement();
-        return possibleCoordinates.x >= 0 && possibleCoordinates.x < width &&
-                possibleCoordinates.y >= 0 && possibleCoordinates.y < height;
     }
 
     public void moveCommand() {
@@ -107,37 +121,12 @@ public class Tank implements GameObject {
         float deltaTime = Gdx.graphics.getDeltaTime();
         updateMovementProgress(deltaTime, MOVEMENT_SPEED);
         if (hasFinishedMovement()) {
-            // record that the player has reached his/her destination
             coordinates.set(destinationCoordinates);
         }
     }
 
     public void updateMovementProgress(float deltaTime, float movementSpeed) {
         movementProgress = continueProgress(movementProgress, deltaTime, movementSpeed);
-    }
-
-    public float getRotation() {
-        return rotation;
-    }
-
-    public float getMovementProgress() {
-        return movementProgress;
-    }
-
-    public GridPoint2 getDestinationCoordinates() {
-        return destinationCoordinates;
-    }
-
-    public GridPoint2 getCoordinates() {
-        return coordinates;
-    }
-
-    public Movement getNextMove() {
-        return nextMove;
-    }
-
-    public void setNextMove(Movement nextMove) {
-        this.nextMove = nextMove;
     }
 
     public void moveUp(){
@@ -165,13 +154,8 @@ public class Tank implements GameObject {
         return collisionChecker.noCollisionsForTank(newCoordinates, this);
     }
 
-    public CollisionChecker getCollisionChecker() {
-        return collisionChecker;
-    }
-
     public boolean canShoot() {
-        long timeShooting = new Date().getTime();
-        return timeShooting - lastTimeShooting > 1000;
+        return state.canShoot();
     }
 
     public boolean isAlive() {
@@ -187,14 +171,6 @@ public class Tank implements GameObject {
         }
         if (life <= 0)
             alive = false;
-    }
-
-    public float getMovementSpeed() {
-        return MOVEMENT_SPEED;
-    }
-
-    public void setMovementSpeed(float MOVEMENT_SPEED) {
-        this.MOVEMENT_SPEED = MOVEMENT_SPEED;
     }
 }
 

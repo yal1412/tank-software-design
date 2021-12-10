@@ -4,12 +4,15 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import ru.mipt.bit.platformer.Event;
-import ru.mipt.bit.platformer.Observer;
-import ru.mipt.bit.platformer.objects.Bullet;
-import ru.mipt.bit.platformer.objects.GameObject;
-import ru.mipt.bit.platformer.objects.Tank;
-import ru.mipt.bit.platformer.objects.Tree;
+import ru.mipt.bit.platformer.driver.observation.Event;
+import ru.mipt.bit.platformer.driver.observation.Observer;
+import ru.mipt.bit.platformer.graphics.textures.BulletTexture;
+import ru.mipt.bit.platformer.graphics.textures.TankTexture;
+import ru.mipt.bit.platformer.graphics.textures.TreeTexture;
+import ru.mipt.bit.platformer.objects.gameObjects.Bullet;
+import ru.mipt.bit.platformer.objects.gameObjects.GameObject;
+import ru.mipt.bit.platformer.objects.gameObjects.Tank;
+import ru.mipt.bit.platformer.objects.gameObjects.Tree;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +33,8 @@ public class LevelRenderer implements Observer {
 
         tankTextures = new ArrayList<>();
         for (int i = 0; i < tanks.size(); i++){
-            tankTextures.add(new TankTexture(new Texture("images/tank_blue.png")));
+            tankTextures.add(new TankTexture(new Texture("images/tank_blue.png"),
+                                             new Texture("images/health.png")));
         }
 
         treeTextures = new ArrayList<>();
@@ -82,12 +86,11 @@ public class LevelRenderer implements Observer {
             case RemoveTank:
                 tankTextures.remove(id);
                 break;
-//            case ChangeHealth:
-//                tankPlayerGraphics.changeHealthBar();
-//                for (var entry : tanksToGraphics.entrySet()) {
-//                    entry.getValue().changeHealthBar();
-//                }
-//                break;
+            case OnOffHealth:
+                for (TankTexture tankTexture : tankTextures) {
+                    tankTexture.changeHealthBar();
+                }
+                break;
         }
     }
 }

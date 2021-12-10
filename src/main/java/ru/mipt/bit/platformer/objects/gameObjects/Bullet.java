@@ -1,19 +1,20 @@
-package ru.mipt.bit.platformer.objects;
+package ru.mipt.bit.platformer.objects.gameObjects;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.GridPoint2;
-import ru.mipt.bit.platformer.CollisionChecker;
+import ru.mipt.bit.platformer.driver.CollisionChecker;
+import ru.mipt.bit.platformer.objects.Direction;
+import ru.mipt.bit.platformer.objects.Movement;
 
 import static com.badlogic.gdx.math.MathUtils.isEqual;
 import static ru.mipt.bit.platformer.util.GdxGameUtils.continueProgress;
 
-public class Bullet implements GameObject{
-    private final float MOVEMENT_SPEED = 0.3f;
+public class Bullet implements GameObject {
     public final int damage = 33;
     private final GridPoint2 coordinates;
-    private GridPoint2 destinationCoordinates;
+    private final GridPoint2 destinationCoordinates;
     private final float rotation;
-    private Movement direction;
+    private final Movement direction;
     private boolean existent = true;
     private float movementProgress = 1f;
 
@@ -46,6 +47,42 @@ public class Bullet implements GameObject{
         return new Movement(Direction.LEFT.vector, Direction.LEFT.rotation);
     }
 
+    public GridPoint2 getCoordinates() {
+        return coordinates;
+    }
+
+    public GridPoint2 getDestinationCoordinates() {
+        return destinationCoordinates;
+    }
+
+    public Tank getTank() {
+        return tank;
+    }
+
+    public float getRotation() {
+        return rotation;
+    }
+
+    public float getMovementProgress() {
+        return movementProgress;
+    }
+
+    public int getDamage() {
+        return damage;
+    }
+
+    public boolean isExistent() {
+        return existent;
+    }
+
+    public void setNotExistent() {
+        existent = false;
+    }
+
+    public boolean hasFinishedMovement() {
+        return isEqual(movementProgress, 1f);
+    }
+
     public GridPoint2 tryMovement() {
         GridPoint2 newCoordinates = new GridPoint2();
         newCoordinates.x = destinationCoordinates.x + direction.directionVector.x;
@@ -59,36 +96,8 @@ public class Bullet implements GameObject{
                 collisionChecker.noCollisionsForBullet(coordinates, this);
     }
 
-    public void setNotExistent() {
-        existent = false;
-    }
-
-    public GridPoint2 getCoordinates() {
-        return coordinates;
-    }
-
-    public GridPoint2 getDestinationCoordinates() {
-        return destinationCoordinates;
-    }
-
-    public Tank getTank() {
-        return tank;
-    }
-
     public boolean isMovementPossible(GridPoint2 obstacleCoordinates, GridPoint2 newPosition) {
         return !obstacleCoordinates.equals(newPosition);
-    }
-
-    public float getRotation() {
-        return rotation;
-    }
-
-    public float getMovementProgress() {
-        return movementProgress;
-    }
-
-    public boolean hasFinishedMovement() {
-        return isEqual(movementProgress, 1f);
     }
 
     public void makeMovement() {
@@ -112,17 +121,14 @@ public class Bullet implements GameObject{
         }
 
         float deltaTime = Gdx.graphics.getDeltaTime();
+        float MOVEMENT_SPEED = 0.3f;
         updateMovementProgress(deltaTime, MOVEMENT_SPEED);
         if (hasFinishedMovement()) {
             coordinates.set(destinationCoordinates);
         }
     }
 
-    public boolean isExistent() {
-        return existent;
-    }
 
-    public int getDamage() {
-        return damage;
-    }
+
+
 }

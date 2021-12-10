@@ -1,6 +1,6 @@
-package ru.mipt.bit.platformer;
+package ru.mipt.bit.platformer.objects.states;
 
-import ru.mipt.bit.platformer.objects.Tank;
+import ru.mipt.bit.platformer.objects.gameObjects.Tank;
 
 public class SevereDamageState implements State {
     private final Tank tank;

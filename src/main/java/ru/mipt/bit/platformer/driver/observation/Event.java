@@ -1,8 +1,8 @@
-package ru.mipt.bit.platformer;
+package ru.mipt.bit.platformer.driver.observation;
 
 public enum Event {
     AddBullet,
     RemoveBullet,
     RemoveTank,
-    ChangeHealth
+    OnOffHealth
 }
