@@ -2,42 +2,71 @@ package ru.mipt.bit.platformer.control.controllers;
 
 import ru.mipt.bit.platformer.control.Control;
 import ru.mipt.bit.platformer.control.commands.Command;
+import ru.mipt.bit.platformer.control.commands.ShootCommand;
+
 /**
  * Use case
  */
 public class ControlByRandom implements Controller {
     private final Control control;
+    Command command;
 
     public ControlByRandom(Command moveUpCommand,
-                   Command moveDownCommand,
-                   Command moveLeftCommand,
-                   Command moveRightCommand,
-                           Command shootCommand){
-        control = new Control(moveUpCommand, moveDownCommand, moveLeftCommand, moveRightCommand, shootCommand);
+                           Command moveDownCommand,
+                           Command moveLeftCommand,
+                           Command moveRightCommand,
+                           Command shootCommand,
+                           Command noMoveCommand){
+        control = new Control(moveUpCommand, moveDownCommand, moveLeftCommand, moveRightCommand, shootCommand, noMoveCommand);
     }
 
     @Override
-    public void executeCommand(){
-        int c = (int) (Math.random() * 4);
+    public void generateCommand() {
+        int mover = (int) (Math.random() * 4);
         int shooter = (int) (Math.random() * 100);
+
         if (shooter < 10) {
-            control.shoot();
+            command = control.getShootCommand();
         }
         else {
-            switch (c) {
+            switch (mover) {
                 case 0:
-                    control.moveUp();
+                    command = control.getMoveUpCommand();
                     break;
                 case 1:
-                    control.moveDown();
+                    command = control.getMoveDownCommand();
                     break;
                 case 2:
-                    control.moveLeft();
+                    command = control.getMoveLeftCommand();
                     break;
                 case 3:
-                    control.moveRight();
+                    command = control.getMoveRightCommand();
                     break;
             }
         }
+    }
+
+    @Override
+    public void executeCommand() {
+//        if (shooter < 10) {
+//            control.shoot();
+//        }
+//        else {
+//            switch (mover) {
+//                case 0:
+//                    control.moveUp();
+//                    break;
+//                case 1:
+//                    control.moveDown();
+//                    break;
+//                case 2:
+//                    control.moveLeft();
+//                    break;
+//                case 3:
+//                    control.moveRight();
+//                    break;
+//            }
+//        }
+        command.execute();
     }
 }

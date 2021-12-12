@@ -34,6 +34,11 @@ public class ControlByAIAdaptor implements Controller {
     }
 
     @Override
+    public void generateCommand(){
+
+    }
+
+    @Override
     public void executeCommand() {
         recommendCommands();
         for (Command command : tanksCommands) {

@@ -21,8 +21,7 @@ public class ShootCommand implements Command{
     }
 
     @Override
-    public void execute(){
-        tank.shoot();
+    public void execute() {
         if (tank.canShoot()) {
 
             GridPoint2 bulletCoords = getNextCoords();

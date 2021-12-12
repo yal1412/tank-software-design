@@ -18,7 +18,8 @@ import static com.badlogic.gdx.Input.Keys.D;
  */
 public class ControlByKey implements Controller, Observable {
     private final Control control;
-    private final GameDriver  gameDriver;
+    Command command;
+    private final GameDriver gameDriver;
     private long lastTimeChanged = new Date().getTime();
 
     public ControlByKey(Command moveUpCommand,
@@ -26,27 +27,33 @@ public class ControlByKey implements Controller, Observable {
                         Command moveLeftCommand,
                         Command moveRightCommand,
                         Command shootCommand,
+                        Command noMoveCommand,
                         GameDriver gameDriver) {
-        control = new Control(moveUpCommand, moveDownCommand, moveLeftCommand, moveRightCommand, shootCommand);
+        control = new Control(moveUpCommand, moveDownCommand, moveLeftCommand, moveRightCommand, shootCommand, noMoveCommand);
         this.gameDriver = gameDriver;
     }
 
     @Override
-    public void executeCommand() {
+    public void generateCommand(){
         if (Gdx.input.isKeyPressed(UP) || Gdx.input.isKeyPressed(W)) {
-            control.moveUp();
+            command = control.getMoveUpCommand();
+            return;
         }
         if (Gdx.input.isKeyPressed(LEFT) || Gdx.input.isKeyPressed(A)) {
-            control.moveLeft();
+            command = control.getMoveLeftCommand();
+            return;
         }
         if (Gdx.input.isKeyPressed(DOWN) || Gdx.input.isKeyPressed(S)) {
-            control.moveDown();
+            command = control.getMoveDownCommand();
+            return;
         }
         if (Gdx.input.isKeyPressed(RIGHT) || Gdx.input.isKeyPressed(D)) {
-            control.moveRight();
+            command = control.getMoveRightCommand();
+            return;
         }
         if (Gdx.input.isKeyPressed(SPACE)){
-            control.shoot();
+            command = control.getShootCommand();
+            return;
         }
         if (Gdx.input.isKeyPressed(L)) {
             long time = new Date().getTime();
@@ -54,7 +61,14 @@ public class ControlByKey implements Controller, Observable {
                 notifyObservers(Event.OnOffHealth, null);
                 lastTimeChanged = time;
             }
+            return;
         }
+        command = control.getNoMoveCommand();
+    }
+
+    @Override
+    public void executeCommand() {
+        command.execute();
     }
 
     @Override

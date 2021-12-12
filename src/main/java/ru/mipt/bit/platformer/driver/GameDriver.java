@@ -10,6 +10,7 @@ import ru.mipt.bit.platformer.driver.observation.Observer;
 import ru.mipt.bit.platformer.objects.gameObjects.GameObject;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 /**
  * Adapter
@@ -33,6 +34,7 @@ public class GameDriver implements Observer {
                                       new MoveLeftCommand(logicLevel.getTanks().get(0)),
                                       new MoveRightCommand(logicLevel.getTanks().get(0)),
                                       new ShootCommand(logicLevel.getTanks().get(0), logicLevel),
+                                      new NoMoveCommand(),
                                       this));
     }
 
@@ -45,12 +47,21 @@ public class GameDriver implements Observer {
                                              new MoveDownCommand(logicLevel.getTanks().get(i)),
                                              new MoveLeftCommand(logicLevel.getTanks().get(i)),
                                              new MoveRightCommand(logicLevel.getTanks().get(i)),
-                                             new ShootCommand(logicLevel.getTanks().get(i), logicLevel)));
+                                             new ShootCommand(logicLevel.getTanks().get(i), logicLevel),
+                                             new NoMoveCommand()));
             i++;
         }
     }
 
     public void generateCommands() {
+        for (int i = 0; i < logicLevel.getTanks().size(); i++) {
+            if (logicLevel.getTanks().get(i).hasFinishedMovement()) {
+                controllers.get(i).generateCommand();
+            }
+        }
+    }
+
+    public void executeCommands() {
         for (int i = 0; i < logicLevel.getTanks().size(); i++) {
             if (logicLevel.getTanks().get(i).hasFinishedMovement()) {
                 controllers.get(i).executeCommand();

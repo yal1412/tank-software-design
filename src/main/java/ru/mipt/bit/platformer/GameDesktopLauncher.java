@@ -34,6 +34,7 @@ public class GameDesktopLauncher implements ApplicationListener {
         Drawer.clearScreen();
 
         gameDriver.generateCommands();
+        gameDriver.executeCommands();
         gameDriver.updateObjects();
 
         logicLevel.levelRenderer.render(logicLevel.getTanks(), logicLevel.getBullets());

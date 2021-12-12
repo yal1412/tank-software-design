@@ -3,6 +3,8 @@ package ru.mipt.bit.platformer.objects.gameObjects;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.GridPoint2;
 import ru.mipt.bit.platformer.driver.CollisionChecker;
+import ru.mipt.bit.platformer.driver.LogicLevel;
+import ru.mipt.bit.platformer.driver.observation.Event;
 import ru.mipt.bit.platformer.objects.*;
 import ru.mipt.bit.platformer.objects.states.*;
 
@@ -29,15 +31,17 @@ public class Tank implements GameObject {
 
     private long lastTimeShooting = new Date().getTime();
 
+    private final LogicLevel logicLevel;
     private final CollisionChecker collisionChecker;
 
-    public Tank(GridPoint2 destinationCoordinates, CollisionChecker collisionChecker) {
+    public Tank(GridPoint2 destinationCoordinates, LogicLevel logicLevel, CollisionChecker collisionChecker) {
         this.destinationCoordinates = destinationCoordinates;
         coordinates = new GridPoint2(destinationCoordinates);
         rotation = 0f;
         movementProgress = 1f;
         nextMove = new Movement();
         alive = true;
+        this.logicLevel = logicLevel;
         this.collisionChecker = collisionChecker;
         state = new NoDamageState(this);
     }
@@ -147,10 +151,6 @@ public class Tank implements GameObject {
         nextMove = new Movement(new GridPoint2(Direction.RIGHT.vector), Direction.RIGHT.rotation);
     }
 
-    public void shoot(){
-
-    }
-
     public boolean noCollisions() {
         GridPoint2 newCoordinates = tryMovement();
         return collisionChecker.noCollisionsForTank(newCoordinates, this);
@@ -173,6 +173,11 @@ public class Tank implements GameObject {
         }
         if (life <= 0)
             alive = false;
+    }
+
+    public void die() {
+        logicLevel.notifyObservers(Event.RemoveTank, this);
+        logicLevel.removeTank(this);
     }
 }
 

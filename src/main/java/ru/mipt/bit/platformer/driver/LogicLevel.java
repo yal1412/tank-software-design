@@ -81,7 +81,7 @@ public class LogicLevel implements Observable {
 
     public void createTanks(List<GridPoint2> tankCoordinates) {
         for (GridPoint2 coordinate : tankCoordinates) {
-            Tank tank = new Tank(coordinate, collisionChecker);
+            Tank tank = new Tank(coordinate, this, collisionChecker);
             tanks.add(tank);
             collisionChecker.addTank(tank);
         }
@@ -116,8 +116,7 @@ public class LogicLevel implements Observable {
         ArrayList <Tank> tanksCopy = new ArrayList<>(tanks);
         for (Tank tank : tanksCopy) {
             if (!tank.isAlive()) {
-                notifyObservers(Event.RemoveTank, tank);
-                tanks.remove(tank);
+                tank.die();
             }
         }
     }
@@ -130,6 +129,10 @@ public class LogicLevel implements Observable {
                 bullets.remove(bullet);
             }
         }
+    }
+
+    public void removeTank(Tank tank) {
+        tanks.remove(tank);
     }
 
     @Override
