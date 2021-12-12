@@ -6,9 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import ru.mipt.bit.platformer.driver.observation.Event;
 import ru.mipt.bit.platformer.driver.observation.Observer;
-import ru.mipt.bit.platformer.graphics.textures.BulletTexture;
-import ru.mipt.bit.platformer.graphics.textures.TankTexture;
-import ru.mipt.bit.platformer.graphics.textures.TreeTexture;
+import ru.mipt.bit.platformer.graphics.textures.*;
 import ru.mipt.bit.platformer.objects.gameObjects.Bullet;
 import ru.mipt.bit.platformer.objects.gameObjects.GameObject;
 import ru.mipt.bit.platformer.objects.gameObjects.Tank;
@@ -25,52 +23,52 @@ public class LevelRenderer implements Observer {
 
     private final LevelLayer levelLayer;
 
-    private final List<TankTexture> tankTextures;
-    private final List<TreeTexture> treeTextures;
-    private final List<BulletTexture> bulletTextures;
+    private final List<TankGraphicsWithHealth> tankGraphicsWithHealths;
+    private final List<TreeGraphics> treeGraphics;
+    private final List<BulletGraphics> bulletGraphics;
 
     public LevelRenderer(List<Tank> tanks, List<Tree> trees){
         batch = new SpriteBatch();
         levelLayer = new LevelLayer(new TmxMapLoader().load("level.tmx"), batch);
 
-        tankTextures = new ArrayList<>();
+        tankGraphicsWithHealths = new ArrayList<>();
         for (int i = 0; i < tanks.size(); i++){
-            tankTextures.add(new TankTexture(new Texture("images/tank_blue.png"),
+            tankGraphicsWithHealths.add(new TankGraphicsWithHealth(new TankGraphics(new Texture("images/tank_blue.png")),
                                              new Texture("images/health.png")));
         }
 
-        treeTextures = new ArrayList<>();
+        treeGraphics = new ArrayList<>();
         for (int i = 0; i < trees.size(); i++){
-            treeTextures.add(new TreeTexture(new Texture("images/greenTree.png")));
+            treeGraphics.add(new TreeGraphics(new Texture("images/greenTree.png")));
         }
 
-        bulletTextures = new ArrayList<>();
+        bulletGraphics = new ArrayList<>();
 
-        levelLayer.placeObstacles(trees, treeTextures);
+        levelLayer.placeObstacles(trees, treeGraphics);
     }
 
     public void render(List<Tank> tanks, List<Bullet> bullets){
         for (int i = 0; i < tanks.size(); i++) {
-            levelLayer.updateTanksPlacement(tanks.get(i), tankTextures.get(i));
+            levelLayer.updateTanksPlacement(tanks.get(i), tankGraphicsWithHealths.get(i));
         }
         for (int i = 0; i < bullets.size(); i++) {
-            levelLayer.updateBulletsPlacement(bullets.get(i), bulletTextures.get(i));
+            levelLayer.updateBulletsPlacement(bullets.get(i), bulletGraphics.get(i));
         }
         levelLayer.render();
 
-        Drawer.draw(batch, tanks, tankTextures, treeTextures, bullets, bulletTextures);
+        Drawer.draw(batch, tanks, tankGraphicsWithHealths, treeGraphics, bullets, bulletGraphics);
 
     }
 
     public void dispose(){
-        for (TreeTexture treeTexture : treeTextures) {
-            treeTexture.getTexture().dispose();
+        for (TreeGraphics treeGraphics : this.treeGraphics) {
+            treeGraphics.getTexture().dispose();
         }
-        for (TankTexture tankTexture : tankTextures) {
-            tankTexture.getBlueTank().dispose();
+        for (TankGraphicsWithHealth tankGraphicsWithHealth : tankGraphicsWithHealths) {
+            tankGraphicsWithHealth.getBlueTank().dispose();
         }
-        for (BulletTexture bulletTexture : bulletTextures) {
-            bulletTexture.getBulletTexture().dispose();
+        for (BulletGraphics bulletGraphics : this.bulletGraphics) {
+            bulletGraphics.getBulletTexture().dispose();
         }
         levelLayer.dispose();
         batch.dispose();
@@ -80,17 +78,17 @@ public class LevelRenderer implements Observer {
     public void update(Event event, GameObject gameObject, int id) {
         switch(event) {
             case AddBullet:
-                bulletTextures.add(new BulletTexture(new Texture("images/bullet_square.png")));
+                bulletGraphics.add(new BulletGraphics(new Texture("images/bullet_square.png")));
                 break;
             case RemoveBullet:
-                bulletTextures.remove(id);
+                bulletGraphics.remove(id);
                 break;
             case RemoveTank:
-                tankTextures.remove(id);
+                tankGraphicsWithHealths.remove(id);
                 break;
             case OnOffHealth:
-                for (TankTexture tankTexture : tankTextures) {
-                    tankTexture.changeHealthBar();
+                for (TankGraphicsWithHealth tankGraphicsWithHealth : tankGraphicsWithHealths) {
+                    tankGraphicsWithHealth.changeHealthBar();
                 }
                 break;
         }

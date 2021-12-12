@@ -8,12 +8,12 @@ import static ru.mipt.bit.platformer.util.GdxGameUtils.createBoundingRectangle;
 /**
  * Entity
  */
-public class HealthTexture {
+public class HealthGraphics {
     private final TextureRegion healthGraphics;
     private final Rectangle healthRectangle;
     private final Texture healthTexture;
 
-    public HealthTexture(Texture healthTexture) {
+    public HealthGraphics(Texture healthTexture) {
         this.healthTexture = healthTexture;
         healthGraphics = new TextureRegion(healthTexture);
         healthRectangle = createBoundingRectangle(healthGraphics);

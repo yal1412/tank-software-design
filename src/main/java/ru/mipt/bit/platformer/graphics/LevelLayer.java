@@ -5,9 +5,9 @@ import com.badlogic.gdx.maps.MapRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Interpolation;
-import ru.mipt.bit.platformer.graphics.textures.BulletTexture;
-import ru.mipt.bit.platformer.graphics.textures.TankTexture;
-import ru.mipt.bit.platformer.graphics.textures.TreeTexture;
+import ru.mipt.bit.platformer.graphics.textures.BulletGraphics;
+import ru.mipt.bit.platformer.graphics.textures.TankGraphicsWithHealth;
+import ru.mipt.bit.platformer.graphics.textures.TreeGraphics;
 import ru.mipt.bit.platformer.objects.gameObjects.Bullet;
 import ru.mipt.bit.platformer.objects.gameObjects.Tank;
 import ru.mipt.bit.platformer.objects.gameObjects.Tree;
@@ -34,28 +34,28 @@ public class LevelLayer {
         tileMovementBullet = new TileMovement(groundLayer, Interpolation.linear);
     }
 
-    public void updateTanksPlacement(Tank tank, TankTexture tankTexture) {
-        tileMovementTank.moveRectangleBetweenTileCenters(tankTexture.getRectangle(),
+    public void updateTanksPlacement(Tank tank, TankGraphicsWithHealth tankGraphicsWithHealth) {
+        tileMovementTank.moveRectangleBetweenTileCenters(tankGraphicsWithHealth.getRectangle(),
                                                      tank.getCoordinates(),
                                                      tank.getDestinationCoordinates(),
                                                      tank.getMovementProgress());
 
-        tileMovementTank.moveRectangleBetweenTileCenters(tankTexture.getHealthRectangle(),
+        tileMovementTank.moveRectangleBetweenTileCenters(tankGraphicsWithHealth.getHealthRectangle(),
                                                          tank.getCoordinates(),
                                                          tank.getDestinationCoordinates(),
                                                          tank.getMovementProgress());
     }
 
-    public void updateBulletsPlacement(Bullet bullet, BulletTexture bulletTexture) {
-        tileMovementBullet.moveRectangleBetweenTileCenters(bulletTexture.getRectangle(),
+    public void updateBulletsPlacement(Bullet bullet, BulletGraphics bulletGraphics) {
+        tileMovementBullet.moveRectangleBetweenTileCenters(bulletGraphics.getRectangle(),
                                                            bullet.getCoordinates(),
                                                            bullet.getDestinationCoordinates(),
                                                            bullet.getMovementProgress());
     }
 
-    public void placeObstacles(List<Tree> trees, List<TreeTexture> treeTextures) {
+    public void placeObstacles(List<Tree> trees, List<TreeGraphics> treeGraphics) {
         for (int i = 0; i < trees.size(); i++) {
-            moveRectangleAtTileCenter(groundLayer, treeTextures.get(i).getRectangle(), trees.get(i).getCoordinates());
+            moveRectangleAtTileCenter(groundLayer, treeGraphics.get(i).getRectangle(), trees.get(i).getCoordinates());
         }
 
     }

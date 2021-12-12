@@ -2,9 +2,9 @@ package ru.mipt.bit.platformer.graphics;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import ru.mipt.bit.platformer.graphics.textures.BulletTexture;
-import ru.mipt.bit.platformer.graphics.textures.TankTexture;
-import ru.mipt.bit.platformer.graphics.textures.TreeTexture;
+import ru.mipt.bit.platformer.graphics.textures.BulletGraphics;
+import ru.mipt.bit.platformer.graphics.textures.TankGraphicsWithHealth;
+import ru.mipt.bit.platformer.graphics.textures.TreeGraphics;
 import ru.mipt.bit.platformer.objects.gameObjects.Bullet;
 import ru.mipt.bit.platformer.objects.gameObjects.Tank;
 
@@ -21,32 +21,32 @@ public class Drawer {
         Gdx.gl.glClear(GL_COLOR_BUFFER_BIT);
     }
 
-    public static void draw(Batch batch, List<Tank> tanks, List<TankTexture> tankTextures, List<TreeTexture> treeTextures,
-                            List<Bullet> bullets, List<BulletTexture> bulletTextures) {
+    public static void draw(Batch batch, List<Tank> tanks, List<TankGraphicsWithHealth> tankGraphicsWithHealths, List<TreeGraphics> treesGraphics,
+                            List<Bullet> bullets, List<BulletGraphics> bulletGraphics) {
         batch.begin();
 
         for (int i = 0; i < tanks.size(); i++) {
-            drawTextureRegionUnscaled(batch, tankTextures.get(i).getGraphics(),
-                                      tankTextures.get(i).getRectangle(),
+            drawTextureRegionUnscaled(batch, tankGraphicsWithHealths.get(i).getGraphics(),
+                                      tankGraphicsWithHealths.get(i).getRectangle(),
                                       tanks.get(i).getRotation());
-            if (tankTextures.get(i).isHealthOn()) {
-                tankTextures.get(i).getHealthGraphics().setRegionWidth(tanks.get(i).getLife());
+            if (tankGraphicsWithHealths.get(i).isHealthOn()) {
+                tankGraphicsWithHealths.get(i).getHealthGraphics().setRegionWidth(tanks.get(i).getLife());
                 drawTextureRegionUnscaled(batch,
-                        tankTextures.get(i).getHealthGraphics(),
-                        tankTextures.get(i).getHealthRectangle().setCenter(
-                                tankTextures.get(i).getHealthRectangle().getX() + 50f,
-                                tankTextures.get(i).getHealthRectangle().getY() - 50f),
+                        tankGraphicsWithHealths.get(i).getHealthGraphics(),
+                        tankGraphicsWithHealths.get(i).getHealthRectangle().setCenter(
+                                tankGraphicsWithHealths.get(i).getHealthRectangle().getX() + 50f,
+                                tankGraphicsWithHealths.get(i).getHealthRectangle().getY() - 50f),
                         180f);
             }
         }
 
-        for (TreeTexture treeTexture : treeTextures) {
-            drawTextureRegionUnscaled(batch, treeTexture.getGraphics(), treeTexture.getRectangle(), 0f);
+        for (TreeGraphics treeGraphics : treesGraphics) {
+            drawTextureRegionUnscaled(batch, treeGraphics.getGraphics(), treeGraphics.getRectangle(), 0f);
         }
 
         for (int i = 0; i < bullets.size(); i++) {
-            drawTextureRegionUnscaled(batch, bulletTextures.get(i).getGraphics(),
-                    bulletTextures.get(i).getRectangle(),
+            drawTextureRegionUnscaled(batch, bulletGraphics.get(i).getGraphics(),
+                    bulletGraphics.get(i).getRectangle(),
                     bullets.get(i).getRotation());
         }
 

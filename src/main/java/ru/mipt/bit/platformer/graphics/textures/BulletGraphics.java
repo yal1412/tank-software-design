@@ -8,12 +8,12 @@ import static ru.mipt.bit.platformer.util.GdxGameUtils.createBoundingRectangle;
 /**
  * Entity
  */
-public class BulletTexture {
+public class BulletGraphics {
     private final Texture bulletTexture;
     private final TextureRegion graphics;
     private final Rectangle rectangle;
 
-    public BulletTexture(Texture bulletTexture){
+    public BulletGraphics(Texture bulletTexture){
         this.bulletTexture = bulletTexture;
         this.graphics = new TextureRegion(bulletTexture);
         this.rectangle = createBoundingRectangle(this.graphics);

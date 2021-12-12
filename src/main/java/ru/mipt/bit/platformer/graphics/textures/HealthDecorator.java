@@ -3,37 +3,28 @@ package ru.mipt.bit.platformer.graphics.textures;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
-import ru.mipt.bit.platformer.graphics.textures.HealthTexture;
 
-import static ru.mipt.bit.platformer.util.GdxGameUtils.createBoundingRectangle;
-/**
- * Entity
- */
-public class TankTexture {
-    private final Texture blueTank;
-    private final TextureRegion graphics;
-    private final Rectangle rectangle;
-    private final HealthTexture health;
+public class HealthDecorator implements GraphicObject{
 
+    private final HealthGraphics health;
+    private GraphicObject tankGraphics;
     private boolean healthOn = false;
 
-    public TankTexture(Texture tankTexture, Texture healthTexture){
-        blueTank = tankTexture;
-        this.graphics = new TextureRegion(blueTank);
-        this.rectangle = createBoundingRectangle(this.graphics);
-        this.health = new HealthTexture(healthTexture);
+    public HealthDecorator(GraphicObject tankGraphics, Texture healthTexture){
+        this.tankGraphics = tankGraphics;
+        this.health = new HealthGraphics(healthTexture);
     }
 
     public TextureRegion getGraphics() {
-        return graphics;
+        return  ((TankGraphics) tankGraphics).getGraphics();
     }
 
     public Rectangle getRectangle() {
-        return rectangle;
+        return ((TankGraphics) tankGraphics).getRectangle();
     }
 
     public Texture getBlueTank() {
-        return blueTank;
+        return ((TankGraphics) tankGraphics).getBlueTank();
     }
 
     public Rectangle getHealthRectangle() {
