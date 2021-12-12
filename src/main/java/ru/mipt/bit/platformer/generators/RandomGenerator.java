@@ -15,12 +15,14 @@ import java.util.List;
 public class RandomGenerator implements LevelGenerator {
 
     private final LogicLevel logicLevel;
-    private int numberOfTanks;
-    private int numberOfTrees;
+    private int numberOfTanks = 0;
+    private int numberOfTrees = 0;
 
     public RandomGenerator(){
         logicLevel = new LogicLevel();
+    }
 
+    public void generateLevel(){
         getFieldSizeFromFile();
         generateRandomObjects();
     }
@@ -107,6 +109,7 @@ public class RandomGenerator implements LevelGenerator {
 
     @Override
     public LogicLevel getLevel() {
+        generateLevel();
         return logicLevel;
     }
 }

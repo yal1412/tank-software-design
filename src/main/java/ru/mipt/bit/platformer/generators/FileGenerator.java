@@ -18,7 +18,9 @@ public class FileGenerator implements LevelGenerator {
 
     public FileGenerator(){
         logicLevel = new LogicLevel();
+    }
 
+    public void generateLevel(){
         getFieldSizeFromFile();
         generateLevelFromFile();
     }
@@ -69,6 +71,7 @@ public class FileGenerator implements LevelGenerator {
 
     @Override
     public LogicLevel getLevel() {
+        generateLevel();
         return logicLevel;
     }
 }
