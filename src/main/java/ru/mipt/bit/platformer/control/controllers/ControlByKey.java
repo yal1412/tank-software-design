@@ -1,4 +1,4 @@
-package ru.mipt.bit.platformer.control.managers;
+package ru.mipt.bit.platformer.control.controllers;
 
 import com.badlogic.gdx.Gdx;
 import ru.mipt.bit.platformer.control.Control;
@@ -16,7 +16,7 @@ import static com.badlogic.gdx.Input.Keys.D;
 /**
  * Use case
  */
-public class ControlByKey implements Manager, Observable {
+public class ControlByKey implements Controller, Observable {
     private final Control control;
     private final GameDriver  gameDriver;
     private long lastTimeChanged = new Date().getTime();

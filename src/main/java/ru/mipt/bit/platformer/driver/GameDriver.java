@@ -1,9 +1,9 @@
 package ru.mipt.bit.platformer.driver;
 
-import ru.mipt.bit.platformer.control.managers.ControlByAIAdaptor;
-import ru.mipt.bit.platformer.control.managers.ControlByKey;
-import ru.mipt.bit.platformer.control.managers.ControlByRandom;
-import ru.mipt.bit.platformer.control.managers.Manager;
+import ru.mipt.bit.platformer.control.controllers.ControlByAIAdaptor;
+import ru.mipt.bit.platformer.control.controllers.ControlByKey;
+import ru.mipt.bit.platformer.control.controllers.ControlByRandom;
+import ru.mipt.bit.platformer.control.controllers.Controller;
 import ru.mipt.bit.platformer.control.commands.*;
 import ru.mipt.bit.platformer.driver.observation.Event;
 import ru.mipt.bit.platformer.driver.observation.Observer;
@@ -17,18 +17,18 @@ import java.util.List;
 public class GameDriver implements Observer {
 
     private final LogicLevel logicLevel;
-    private final List<Manager> managers;
+    private final List<Controller> controllers;
 
     ControlByAIAdaptor aiController;
 
     public GameDriver(LogicLevel logicLevel) {
         this.logicLevel = logicLevel;
-        managers = new ArrayList<>();
+        controllers = new ArrayList<>();
         aiController = new ControlByAIAdaptor(logicLevel);
     }
 
     public void createManagerForPlayer() {
-        managers.add(new ControlByKey(new MoveUpCommand(logicLevel.getTanks().get(0)),
+        controllers.add(new ControlByKey(new MoveUpCommand(logicLevel.getTanks().get(0)),
                                       new MoveDownCommand(logicLevel.getTanks().get(0)),
                                       new MoveLeftCommand(logicLevel.getTanks().get(0)),
                                       new MoveRightCommand(logicLevel.getTanks().get(0)),
@@ -37,11 +37,11 @@ public class GameDriver implements Observer {
     }
 
     public void createManagerForTanks() {
-        int i = managers.size();
+        int i = controllers.size();
 
-        while (managers.size() < logicLevel.getTanks().size()) {
+        while (controllers.size() < logicLevel.getTanks().size()) {
 
-            managers.add(new ControlByRandom(new MoveUpCommand(logicLevel.getTanks().get(i)),
+            controllers.add(new ControlByRandom(new MoveUpCommand(logicLevel.getTanks().get(i)),
                                              new MoveDownCommand(logicLevel.getTanks().get(i)),
                                              new MoveLeftCommand(logicLevel.getTanks().get(i)),
                                              new MoveRightCommand(logicLevel.getTanks().get(i)),
@@ -53,7 +53,7 @@ public class GameDriver implements Observer {
     public void generateCommands() {
         for (int i = 0; i < logicLevel.getTanks().size(); i++) {
             if (logicLevel.getTanks().get(i).hasFinishedMovement()) {
-                managers.get(i).executeCommand();
+                controllers.get(i).executeCommand();
             }
         }
     }

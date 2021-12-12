@@ -1,4 +1,4 @@
-package ru.mipt.bit.platformer.control.managers;
+package ru.mipt.bit.platformer.control.controllers;
 
 import org.awesome.ai.Action;
 import org.awesome.ai.Recommendation;
@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * Use case
  */
-public class ControlByAIAdaptor implements Manager {
+public class ControlByAIAdaptor implements Controller {
     private final GameState gameState;
     private final AI ai;
     private final List<Command> tanksCommands;
